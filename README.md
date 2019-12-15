@@ -33,39 +33,4 @@ Turint projektui reikiamas priklausomybes, galime paprastai įsidiegti projektą
 - Kelių nuotraukų talpinimas
 
 ## DB
-```plantuml
-object User {
-  -email : String
-  -password : String
-  -isAdmin : Boolean
-  -isOP : Boolean
-}
 
-object Post {
-  +postname : String
-  +desc : String
-  +author : User
-  +created_at : Date
-  +updated_at : Date
-}
-
-object File {
-  -originalname : String
-  +destination : String
-  +filename : String
-  +path : String
-  +created_at : Date
-  +updated_at : Date
-}
-
-object Message {
-  -Text : String
-  -Author : User
-  -created_at : Date
-}
-
-User "1..1" -- "0..*" Post : Turi
-Post "0..1" -- "0..4" File : Turi
-Post "1..1" -- "0..*" Message : Turi
-
-```
