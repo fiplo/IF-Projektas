@@ -33,4 +33,4 @@ Turint projektui reikiamas priklausomybes, galime paprastai įsidiegti projektą
 - Kelių nuotraukų talpinimas
 
 ## DB
-
+![DB scheme](http://www.plantuml.com/plantuml/png/SoWkIImgAStDuLBCp4lEAKr9BItAKSWeAIaejjBNJyyioIXDqalEpzLFoop8oTVtTDCDAChFIiqkIIpMBqeiryzDB2v9BT9toKykrW_rzT5tST8h09dca9gN0gG1)
