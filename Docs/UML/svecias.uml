@@ -1,0 +1,68 @@
+@startuml
+
+skinparam packageStyle rectangle
+
+:Kontrolierius:
+:Administratorius:
+:Prisiregistraves Vartotojas:
+:Svecias:
+
+rectangle Private {
+  (Sukurti Skelbimus)
+  (Nuotraukų Įkėlimas Skelbimui)
+  (Aprašymo Pateikimas)
+  (Skelbimo Laiko Nustatymas)
+  (Žinučiu Siuntimas Skelbimams)
+  (Žinučiu Peržiūra Turimiems Skelbimams)
+  (Skelbimo Redagavimas)
+
+  rectangle "Administratoriaus Įrankiai" {
+    (Vartotoju Sąrasas)
+    (Vartotojo Skelbimai)
+    (Teisiu suteikimas)
+
+    (Skelbimu Pašalinimas) 
+  }
+}
+
+
+rectangle "Public" {
+  Svecias ---> (Skelbimu Sarasas)
+  Svecias ---> (Skelbimu Perziura)
+  Svecias ---> (Registracija)
+  Svecias ---> (Prisijungimas)
+}
+
+:Prisiregistraves Vartotojas: <|-- Svecias
+
+:Prisiregistraves Vartotojas: ---> (Sukurti Skelbimus)
+(Sukurti Skelbimus) --> (Nuotraukų Įkėlimas Skelbimui)
+(Sukurti Skelbimus) --> (Aprašymo Pateikimas)
+(Sukurti Skelbimus) --> (Skelbimo Laiko Nustatymas)
+(Sukurti Skelbimus) --> (Skelbimo Redagavimas)
+:Prisiregistraves Vartotojas: ---> (Žinučiu Siuntimas Skelbimams)
+:Prisiregistraves Vartotojas: ---> (Žinučiu Peržiūra Turimiems Skelbimams)
+
+:Administratorius: <|-- :Prisiregistraves Vartotojas:
+:Kontrolierius: <|--- :Prisiregistraves Vartotojas:
+
+:Administratorius: --> (Vartotoju Sąrasas)
+:Administratorius: --> (Vartotojo Skelbimai)
+:Administratorius: --> (Teisiu suteikimas)
+
+:Administratorius: --> (Skelbimu Pašalinimas)
+
+:Kontrolierius: -->  (Skelbimu Pašalinimas)
+
+note left of :Prisiregistraves Vartotojas:
+  Vartotojas turi turėti teises
+  talpinti skelbimus norėdamas
+  talpinti skelbimus.
+end note
+
+note right of :Administratorius:
+  Administratorius negali skelbti skelbimų
+end note
+
+
+@enduml

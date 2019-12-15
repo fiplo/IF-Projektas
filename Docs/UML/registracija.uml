@@ -1,0 +1,19 @@
+@startuml
+Svečias -> Serveris : HTTP užklausa į "/signup"
+Serveris -> Svečias : Atsiunčiama registracijos forma
+loop Informacija Neteisinga
+Svečias -> Serveris : Siunčiama "/signup" užklausa
+Serveris -> Serveris : Tikrinama pateikta informacija
+Serveris -> Svečias : Išsiunčiama žinutė apie klaidą ir gryžtama atgal prie formos
+end
+Serveris -> Serveris : Slaptažodis užšifruojamas sistemoje
+Serveris -> Serveris : Informacija suformatuojama į User modelį
+Serveris -> Mangoose : Modelis išsiunčiamas į Duomenų bazės sistemą
+Mangoose --> Serveris : Išsiunčiama būsena
+alt Įvyksta klaida
+Serveris -> Svečias : Išspausdinama klaida
+else Operacija sėkminga
+Serveris -> Svečias : Gražinama į pagr. index puslapį "/"
+end
+
+@enduml

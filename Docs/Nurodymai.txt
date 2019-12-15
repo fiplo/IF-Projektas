@@ -1,0 +1,370 @@
+Modulis: T120B145 ,, Kompiuterių tinklai ir internetinės
+technologijos“ 
+
+IT projektas
+
+Internetinė sistema
+
+METODINIAI NURODYMAI
+
+IT projekto tikslas: suprojektuoti, realizuoti ir dokumentuoti
+internetinę sistemą pagal dėstytojo pateiktą užduotį.
+
+Realizavimo priemonės: PHP ir MySQL pagrindo platformos. Norint naudoti
+kitokio pagrindo platformas susiderinti su dėstytoju.
+
+Darbo turinys: 
+
+Sistemos projektavimas. 
+
+apibrėžti sistemos funkcijas;
+
+numatyti vartotojų įgaliojimų atlikti tam tikras funkcijas suteikimo 
+tvarką, vartotojų registravimo ir valdymo tvarką, prisijungimo vardų
+ir slaptažodžių sistemą;
+
+numatyti kiekvienos vartotojų kategorijos atliekamas funkcijas;
+
+suprojektuoti duomenų bazės loginį modelį;
+
+suprojektuoti vartotojų darbo aplinkas.
+
+Pasiruošimas tarpiniam gynimui. Šio pristatymo metu bus derinama
+sistemos atitikimas dėstytojo kaip užsakovo vizijai.
+
+paruošti ir dieną prieš gynimą patalpinti moodle.ktu.lt tarpinę
+ataskaitą, apimančią 1-6 ataskaitos  punktus;
+
+realizuoti sistemos prototipą ar maketą, kuris leistų pademonstruoti
+sistemos veikimą, duomenų įvedimo ir rezultatų atvaizdavimo formas.
+
+Galutinė sistemos realizacija, testavimas ir dokumentavimas.
+
+atlikti dėstytojo nurodytus pakeitimus sistemos projekte;
+
+programiškai realizuoti sistemą;
+
+paruošti tęstinę aplinką, suregistruoti vartotojus ir atlikti
+sistemos funkcijų testavimą;
+
+paruošti aplinkos paruošimo, instaliavimo ir paleidimo virtualioje
+mašinoje instrukcijas*);
+
+paruošti galutinę darbo ataskaitą ir dieną prieš gynimą patalpinti
+moodle.ktu.lt;
+
+sistemos kodas ir DB lentelės turi būti suarchyvuotos ir patalpintos
+Moodle. 
+
+*) jei ne stud.if.ktu.lt serveryje
+
+Ataskaitos turinys
+
+Titulinis lapas Tituliniame puslapyje turi būti darbo pavadinimas,
+autoriaus ir darbo vadovo vardas ir pavardė, metai. (1 psl.). 
+
+Turinys (1 psl.). 
+
+Informacinės sistemos atliekamos funkcijos. Sistemos vartotojų
+kategorijų ir joms priskirtų funkcijų aprašymas, panaudojimo atvejų
+diagrama, pagrindinių funkcijų loginės schemos. Čia pateikiamas
+aprašymas turi būti pakankamai detalus ir konkretus, kad iš jo
+matytusi sistemos atliekamos funkcijos, operacijų tvarka ir rezultatai
+(apie 2-3 psl.). 
+
+Informacinės sistemos duomenų bazės loginis modelis. DB struktūros
+specifikavimas:  objektai, jų savybės, atributai, ryšiai tarp
+objektų. Pateikti  duomenų bazės loginį modelį (apie 1-2 psl.). 
+
+Vartotojų darbo aplinkos. Kiekvienai numatytai funkcijai pateikti 
+įvedamus duomenis ir gaunamus rezultatus. Ekrano kopijų ar kitame
+vaizdžiame pavidale pateikti numatytą užklausų ir rezultatų
+atvaizdavimą ekrane (apie 2-4 psl.). 
+
+Sistemos realizacija. Aprašyti sistemoje naudojamus programinius
+modulius ir jų sąryšį, duomenų bazės struktūrą ir lenteles.
+(apie 2-3 psl.).
+
+Testavimas. Aprašyti suprojektuotos sistemos testavimo procedūrą.
+Nurodyti sistemos atitikimą užduočiai, kas veikia ne taip kaip
+numatyta.  Testavimo dalyje pateikti prisijungimo prie sistemos detales:
+URL, vartotojų vardus ir slaptažodžius. (apie 2 psl.).
+
+Sistemos instaliavimas ir paleidimas. Parašyti instrukcijas kaip
+paruošti aplinką, instaliuoti ir paleisti jūsų produktą  nurodytose
+Lubuntu 16.04 arba Lubuntu 18.04 sistemose (jei ne stud.if.ktu.lt
+serveryje).
+
+Bendri reikalavimai programinei realizacijai
+
+Tinklapio tituliniame puslapyje turi būti darbo pavadinimas, autoriaus
+vardas ir pavardė. 
+
+Tinklapio dizainas turi būti tvarkingas. 
+
+Paspaudus operacijos vykdymo mygtuką turi būti atliktos operacijos
+rezultato atvaizdavimas arba jos įvykdymo patvirtinimas. 
+
+Jei operacijos įvykdyti negalima dėl neteisingų ar nepilnų duomenų,
+turi būti išvedamas diagnostinis pranešimas.
+
+Sistema turi pilnai veikti lietuvių kalba.
+
+Slaptažodžiai duomenų bazėje saugomi šifruoti.
+
+Neturi būti galimybės patekti į sistemą neprisijungus ar vykdyti tik
+kitai kategorijai skirtas funkcijas.
+
+Turi būti realizuota įvedamų duomenų kontrolė.
+
+Testavimo rezultatuose turi būti aptartos visos ne iki galo realizuotos
+funkcijos. Darbo gynimo metu rasta neveikianti funkcija ir neaptarta
+testavimo rezultatuose bus laikoma darbo trūkumu.
+
+Galutinė ataskaita turi atitikti pateiktą gynimui realizaciją.
+
+Pristatymas ir gynimas. 
+
+Internetinės sistemos pristatymas vykdomas dviem etapais: 1
+etapas-sistemos projektas ataskaitos pavidale bei prototipo
+demonstravimas; 2 etapas – ataskaita ir veikianti sistema.
+Atsiskaitymai galimi tik tam skirtais laikais ir tik pas užduotį
+skyrusį dėstytoją. Neapsigynus 1 etapo numatytu atsiskaitymo laiku,
+tai padaryti bus galima galutinio gynimo metu. Tačiau tokiu atveju
+galutinis gynimas  bus nukeliamas į paskutinę semestro savaitę.
+Paskutinę semestro savaitę vyks tik galutinis gynimas. 1 etapo
+vertinimas sudaro 20% pažymio.
+
+:
+
+v
+
+>
+
+”
+
+д
+
+摧纘@
+
+2 h
+
+h
+
+д
+
+hв
+
+h
+
+摧㖠®
+
+葞и摧ῗh
+
+摧䰼Å
+
+摧ࢊA
+
+hв
+
+hв
+
+hв
+
+hв
+
+h`
+
+hв
+
+h`
+
+mH
+
+sH
+
+hв
+
+hв
+
+hв
+
+hв
+
+葞Ũ摧㖠®
+
+摧䰼Å
+
+$ h
+
+$ h
+
+hв
+
+hв
+
+mH
+
+sH
+
+hв
+
+mH
+
+sH
+
+hв
+
+hв
+
+mH
+
+sH
+
+mH
+
+sH
+
+h
+
+$ h
+
+$ h
+
+h
+
+$ h
+
+h
+
+ Dėstytojas pastabas pateikia taip pat Moodle sistemoje.
+
+2 etapo metu tikrinamas internetinės sistemos veikimas ir vertinama
+galutinė ataskaita. Galutinio gynimo metu turi būti pristatyta
+išbaigta ir ištestuota sistema bei jos dokumentacija. Dokumentacija
+turi atitikti galutinę realizaciją. Testavimo rezultatuose turi būti
+pažymėtos visos ne iki galo išspręstos problemos. Gynimo metu rasta
+nauja problema bus laikoma didesniu trūkumu, negu aprašyta. Sistema
+turi būti pilnai paruošta pristatymui: suregistruoti vartotojai,
+netuščios duomenų bazės. Dokumentacijoje testavimo skyriuje turi
+būti kontrolinių vartotojų prisijungimo duomenys. Kiekvienam
+studentui duodama užduotis operatyviai atlikti pakeitimus programos
+kode. Jei studentas nesugeba gynimo metu atlikti nurodytų pakeitimų,
+laikoma, kad darbas atliktas nesavarankiškai ir gali būti
+neužskaitomas.
+
+Sistema turi būti pilnai paruošta pristatymui: iš anksto
+suregistruoti vartotojai, duomenų bazės tvarkingai užpildytos
+kontroliniais duomenimis. Gynimo metu kiekvienam studentui duodama
+užduotis operatyviai atlikti pakeitimus programos kode. Jei studentas
+nesugeba gynimo metu atlikti nurodytų pakeitimų, laikoma, kad darbas
+atliktas nesavarankiškai.
+
+Darbo atsiskaitymų metu (tiek demonstruojant sistemos prototipą, tiek
+visą išbaigtą darbą), bus kreipiamas dėmesys ar darbas tenkina
+šiuos kriterijus:
+
+Ar yra įgyvendintos pagrindinės funkcijos taip kaip norėjo
+užsakovas;
+
+Ar yra įgyvendintos papildomos funkcijos taip kaip norėjo užsakovas;
+
+Ar sistema yra patogi vartotojo naudojimui;
+
+Ar yra trijų tipų registruoti vartotojai (išimties atveju gali būti
+2 reg. vartotojų tipai);
+
+Ar užpildyta sistemos duomenų bazė testiniais duomenimis; 
+
+Ar yra apsauga nuo klaidingų duomenų įvedimo;
+
+Ar visi sistemoje pateikiami užrašai bei pranešimai yra lietuviški;
+
+Ar yra minimalus sistemos dizainas;
+
+Ar atlikus operaciją sėkmingai vartotojas apie tai yra informuojamas
+(ne būtinai iššokančiu pranešimu);
+
+Ar išvedami pranešimai apie tai, jog dėl kažkokių tai priežasčių
+negalima įvykdyti sistemoje vienos ar kitos operacijos;
+
+Ar bandant siųsti nekorektiškus duomenis į sistemą atsiranda
+pranešimas apie duomenų nekorektiškumą, o patys duomenys lieka
+duomenų įvedimo formoje;
+
+Ar pateiktoje darbo ataskaitoje yra visos numatytos dalys ir šios dalys
+yra kokybiškai atliktos;
+
+Darbo vertinimas 
+
+Darbas vertinamas teigiamai minimaliam pažymiui (5) jei visi
+išvardinti punktai yra išpildyti:
+
+Sukurta vieno tipo registruotų vartotojų aplinka;
+
+Yra duomenų bazė su kontroliniais (paruošti duomenys sistemos
+demonstravimui) duomenimis;
+
+Pateikta patenkinamai paruošta ataskaita Moodle sistemoje su
+prisijungimo adresu, prisijungimo vardais ir slaptažodžiais; 
+
+Yra suprantamas visas parašytas PHP kodas bei gynimo metu dėstytojui
+paprašius greitai atliekami sistemos veikimo pakeitimai;
+
+Yra galimybė papildyti ar koreguoti duomenis per sukurtą internetinę
+sistemą ir per ją matyti įkeltus rezultatus. Jeigu DB pakeitimo
+negalima atlikti – turi veikti mažiausiai dvi registruotų vartotojų
+aplinkos, kurios naudotų skirtingus DB esančius duomenis.
+
+PASTABA 1: ginantis sistemos prototipą pagrindinės sistemos funkcijos
+gali veikti ne būtinai visiškai taip, kaip norėjo užsakovas, o
+papildomos funkcijos gali iš viso neveikti. 
+
+PASTABA 2: ginantis sistemos prototipą darbo ataskaitoje gali nebūti 
+testavimo dalies. 
+
+Darbas vertinamas ne daugiau kaip gerai (8) jei visi išvardinti punktai
+yra išpildyti:
+
+Turi būti tenkinami visi aukščiau surašyti kriterijai;
+
+Veikia ne mažiau kaip trijų tipų registruotų vartotojų aplinkos
+(išimties tvarka gali būti dvi aplinkos);
+
+Veikia nepriekaištingai visos pagrindinės funkcijos taip kaip norėjo
+užsakovas;
+
+Funkcionaliai išbaigtas vartotojų valdymas;
+
+Veikia nekorektiškų įvedamų duomenų kontrolė (blogas duomenų
+įvedimo formatas ar nėra užpildyti tam tikri laukai) bei atsiranda
+pranešimai apie nekorektiškai bandomus įvesti duomenis, o atsiradus
+klaidos pranešimams duomenys įvedimo formoje lieka;
+
+Vertinimui iki 8 darbas gali būti ginamas studento kompiuteryje.
+
+Darbas vertinamas puikiai (10) jei visi išvardini punktai yra
+išpildyti:
+
+Tenkinami visi aukščiau surašyti kriterijai;
+
+Veikia nepriekaištingai visos papildomos funkcijos taip kaip norėjo
+užsakovas.
+
+Studento pateikta instrukcija kaip instaliuoti ir paleisti sistemą
+kitame kompiuteryje ar serveryje.
+
+PASTABA 3: Lubuntu 16.04 32 bitų mašinos instaliuotos klasėse. Moodle
+ nurodyta iš kur pasiimti  Lubuntu 18.04 virtualios mašinos vaizdą.
+Ji 64 bitų, instaliuota virtualbox-guest-additions, Apache2, php7.2,
+MySQL, phpMyAdmin, docker. Jei reikia papildomų paketų, juos reiks
+instaliuoti pristatant projektą.
+
+PASTABA 4: Vykdytojas (studentas), turi išsiaiškinti kaip turi veikti
+sistema su užsakovu (dėstytoju). Užsakovas pasilieka teisę spręsti
+ar vertinti – ar taip sistema veikia, kaip jis nori. 
+
+T120B145 IT projekto metodiniai nurodymai
+
+  PAGE   \* MERGEFORMAT  3 
+

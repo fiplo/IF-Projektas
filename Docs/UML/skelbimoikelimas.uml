@@ -1,0 +1,27 @@
+@startuml
+Vartotojas -> Serveris : HTTP užklausa į "/post"
+Serveris -> Serveris : Tikrinama ar HTTP užklausa turi vartotojo duomenys
+alt Vartotojas neprisijungęs
+Serveris -> Vartotojas : Gražinama atgal į index page "./"
+destroy Vartotojas
+else Vartotojas Prisijungęs
+  Serveris -> Vartotojas : Atsiučiama skelbimo forma, su vartotjo informacija
+end
+loop Informacija Neteisinga
+Vartotojas -> Serveris : Siunčiama "/post" užklausa
+Serveris -> Serveris : Tikrinama pateikta informacija
+Serveris -> Vartotojas : Išsiunčiama žinutė apie klaidą ir gryžtama atgal prie formos
+end
+loop Paveisklėlių kiekis skelbime
+Serveris -> TalpyklosVariklis : Failas siunčiamas varikliui, kuris atsakingas už failų talpinimą
+TalpyklosVariklis -> Serveris : Atsiunčiamos nuorodos į paveisklėlį
+end
+Serveris -> Serveris : Skelbimo informacija suformatuojama į skelbimo modelį
+Serveris -> Mangoose : Siunčiama užklausa išsaugoti skelbimą
+Mangoose -> Serveris : Siunčiamas būsenos kodas
+alt Įvyko Klaida
+Serveris -> Vartotojas : Atspausdinama klaida
+else Operacija sėkminga
+Serveris -> Vartotojas : Gražinama į pagr. index puslapį "/"
+end
+@enduml

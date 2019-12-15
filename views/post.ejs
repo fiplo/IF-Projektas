@@ -1,0 +1,42 @@
+<!-- views/signup.ejs -->
+<!doctype html>
+<html>
+<%- include('partial/head.ejs') %>
+<body>
+<div class="container">
+
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h1><span class="fa fa-sign-in"></span> Skelbimo kūrimas</h1>
+
+    <!-- show any messages that come back with authentication -->
+
+    <!-- LOGIN FORM -->
+    <form action="/post" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Vartotojas</label>
+            <input type="text" class="form-control" value="<%= user.local.email %>" readonly>
+        </div>
+        <div class="form-group">
+            <label>Skelbimo pavadinimas</label>
+            <input type="text" class="form-control" name="postname">
+        </div>
+        <div class="form-group">
+            <label>Skelbimo aprašas</label>
+            <input type="text" class="form-control" name="postdesc">
+        </div>
+        <div class="form-group">
+            <label>Nuotrauka</label>
+            <input type="file" class="form-control" name="file">
+        </div>
+
+        <button type="submit" class="btn btn-warning btn-lg" value="upload">Įkelti</button>
+    </form>
+
+    <hr>
+
+</div>
+
+</div>
+</body>
+</html>

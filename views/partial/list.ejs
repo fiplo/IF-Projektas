@@ -1,0 +1,20 @@
+<div class="page-header text-center">
+      <h1><span class="fa fa-anchor"></span> Skelbimu sąrašas</h1>
+</div>
+<hr class="my-4"> 
+
+<div class="row text-center container">
+  <% offer.forEach(function(offer) {%>
+    <div class="col-md-4">
+      <div class="card mb-4 shadow-sm">
+        <img src="<%= offer.path %>" class="card-img-top" width="auto" height="255" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"> 
+        <div class="card-body ">
+          <h3 class="card-text"> <%= offer.postname %> </hr>
+          <p class="card-text"><%= offer.desc %></p>
+          <p class="card-text">Creation date: <%= offer.created_at %> </p>
+        </div>
+      </div>
+    </div>
+  <% }) %>
+</div>
+<hr class="my-4">

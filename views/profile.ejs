@@ -1,0 +1,57 @@
+<html>
+<%- include('partial/head.ejs') %>
+
+<body>
+<div class="container">
+
+    <div class="page-header text-center">
+        <h1><span class="fa fa-anchor"></span> Profilis</h1>
+        <a href="/logout" class="btn btn-default btn-sm">Atsijungti</a>
+    </div>
+
+
+    <hr class="my-4">
+
+    <div class="row text-break">
+
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-6">
+          <div class="card mb-4 shadow-sm text-center">
+            <div class="well">
+                <h3><span class="fa fa-user"></span> Vartotojo Informacija</h3>
+
+                    <p>
+                        <strong>id</strong>: <%= user._id %><br>
+                        <strong>el. paštas</strong>: <%= user.local.email %><br>
+                    </p>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+           <div class="card mb-4 shadow-sm text-center">
+             <div class="well">
+                  <h3><span class="fa fa-inbox"></span> Skelbimu įkelimas</h3>
+                  <p>
+                      <strong><a href="/post">Spustelėkite čia</a><br>
+                  </p>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+          <div class="card mb-4 shadow-sm text-center">
+            <div class="well">
+                <h3><span class="fa fa-bullhorn"></span> Skelbimai</h3>
+                <p>
+                    <strong><a href="/list">Spustelėkite čia</a><br>
+                </p>
+              </div>
+            </div>
+          </div>
+      </div>
+
+</div>
+</body>
+</html>
