@@ -33,7 +33,7 @@ Turint projektui reikiamas priklausomybes, galime paprastai įsidiegti projektą
 - Kelių nuotraukų talpinimas
 
 ## DB
-@startuml
+```plantuml
 object User {
   -email : String
   -password : String
@@ -68,6 +68,4 @@ User "1..1" -- "0..*" Post : Turi
 Post "0..1" -- "0..4" File : Turi
 Post "1..1" -- "0..*" Message : Turi
 
-
-
-@enduml
+```
