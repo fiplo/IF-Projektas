@@ -1,4 +1,4 @@
-var Offer = require("../app/models/post");
+var Lecture = require("../app/models/post");
 
 module.exports = function(app, passport, multer, storage) {
   // Main page
@@ -54,18 +54,15 @@ module.exports = function(app, passport, multer, storage) {
     multer({ storage: storage, dest: "./uploads/" }).single("file"),
     function(req, res) {
       console.log(req);
-      var offer = new Offer({
-        originalname: req.file.originalname,
-        destination: req.file.destination,
-        filename: req.file.filename,
-        path: req.file.path,
-        postname: req.postname,
+      var lecture = new Lecture({
+        name: req.postname,
         desc: req.body.postdesc,
-        postname: req.body.postname,
+        name: req.body.postname,
         created_at: Date.now(),
-        contact: req.user.email
+        contact: req.user.email,
+        items: []
       });
-      offer.save(function(err) {
+      lecture.save(function(err) {
         if (err) {
           console.log(err);
         } else {
@@ -81,9 +78,9 @@ module.exports = function(app, passport, multer, storage) {
   });
 
   app.get("/list", function(req, res) {
-    Offer.find({}).exec(function(err, offer) {
+    Lecture.find({}).exec(function(err, lectures) {
       if (err) throw err;
-      res.render("listposts.ejs", { offer: offer });
+      res.render("listLectures.ejs", { lectures: lectures });
     });
   });
 
@@ -95,4 +92,10 @@ module.exports = function(app, passport, multer, storage) {
     //Back to mainpage
     res.redirect("/");
   }
+
+
+
+
+
+
 };
