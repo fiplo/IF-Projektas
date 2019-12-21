@@ -208,34 +208,18 @@ app.post(
   function(req, res) {
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(404).send("Invalid ID.");
 
-    console.log(req.body);
-
-    User.findOne({_id: req.params.id}).exec(function(err, user) {
-      user.$locals.email = req.body.email;
-      user.$locals.userType = req.body.userType;
-      user.$locals.faculty = req.body.faculty;
-      user.save();
-      console.log(user);
-    });
-
-    res.redirect("/admin");
-
-
-    /*
-    if(!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(404).send("Invalid ID.");
-    User.findOneAndUpdate({ _id: req.params.id },
-      { email: req.body.email,
-      userType: req.body.userType,
-      faculty: req.body.faculty, }
-      )
-      .exec(function(err, user) {
+    User.findOneAndUpdate({_id: req.params.id},
+      { $set: {"local.email": req.body.email,
+              "local.userType": req.body.userType,
+              "local.faculty": req.body.faculty}},
+      (err, doc) => {
       if (err) {
-        console.log(err);
-      } else {
-        res.redirect("/admin");
-      }
-     });*/
-     
+            console.log("Something wrong when updating data!");
+        }
+        console.log(doc);
+    });
+    
+    res.redirect("/admin");
   }
 );
 
