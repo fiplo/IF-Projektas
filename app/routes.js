@@ -42,6 +42,12 @@ module.exports = function(app, passport, multer, storage) {
     });
   });
 
+  app.get("/createtest", isLoggedIn, function(req, res) {
+    res.render("createtest.ejs", {
+      user: req.user
+    });
+  });
+
   //Posting page
   app.get("/post", isLoggedIn, function(req, res) {
     res.render("post.ejs", {
