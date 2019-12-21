@@ -16,7 +16,8 @@ var userSchema = mongoose.Schema({
       type: String,
       enum: ["student", "admin", "lecturer", "unconfirmed"],
       default: "unconfirmed"
-    }
+    },
+    lectures: []
   }
 });
 

@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+  <%- include('../partial/head.ejs') %>
+</head>
+<body>
+<div class="container">
+
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h1 style="width: 600px;"><span class="fa fa-sign-in"></span> Modulio elemento kūrimas</h1>
+
+    <form action="/lecture/<%= lecture._id %>" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Vartotojas</label>
+            <input type="text" class="form-control" value="<%= user.local.email %>" readonly>
+        </div>
+
+        <div class="form-group">
+            <label>Elemento pavadinimas</label>
+            <input type="text" class="form-control" name="postname">
+        </div>
+
+        <div class="form-group">
+            <label>Elemento aprašas</label>
+            <input type="text" class="form-control" name="postdesc">
+        </div>
+
+        <script type="text/javascript">
+        function run() {
+            const element = document.getElementById("typeDropdown");
+            let selectedValue = element.options[element.selectedIndex].value;
+
+            const submitFileField = document.getElementById("submitFile");
+
+            if(selectedValue === 'material'){
+                submitFileField.innerHTML = `
+                <label>Failas</label>
+                <input type="file" class="form-control" name="file">
+                `;
+            } else {
+                submitFileField.innerHTML = '';
+            }
+        }
+        </script>
+        <div class="form-group">
+            <label>Tipas</label>
+            <select name="type" id="typeDropdown" onChange="run();">
+                <option value="material">Medziaga</option>
+                <option value="test">Testas</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="submitFile">
+            <label>Failas</label>
+            <input type="file" class="form-control" name="file">
+        </div>
+
+        <button type="submit" class="btn btn-warning btn-lg" value="upload">Įkelti</button>
+    </form>
+
+    <hr>
+
+</div>
+
+</div>
+</body>
+</html>
