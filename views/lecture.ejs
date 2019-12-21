@@ -12,12 +12,13 @@
     <div class="jumbotron" style="padding-top: 32px;">
         <h3>Modulio failai</h3>
         <hr>
-        <% if(lecture.items.length !== 0) { %>
+        <% if( items.length !== 0) { %>
             <div> 
-            <% lecture.items.forEach(item => { %>
+            <% items.forEach(item => { %>
                 <h5>Name: <%= item.name %></h5>
+                <p>Desc: <%= item.desc %></p>
                 <p>Type: <%= item.type %></p>
-                <a href="">TODO: Open file</a>
+                <a href="/<%= item.filepath %>">Open file</a>
             <% }) %>
             <hr>
             </div>
