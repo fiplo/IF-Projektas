@@ -163,10 +163,19 @@ app.post(
   "/editUser/:id",
   multer().none(),
   function(req, res) {
-    var user = User.findById({_id: req.params.id});
-    console.log(user.local.email);
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(404).send("Invalid ID.");
 
+    console.log(req.body);
 
+    User.findOne({_id: req.params.id}).exec(function(err, user) {
+      user.$locals.email = req.body.email;
+      user.$locals.userType = req.body.userType;
+      user.$locals.faculty = req.body.faculty;
+      user.save();
+      console.log(user);
+    });
+
+    res.redirect("/admin");
 
 
     /*
