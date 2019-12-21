@@ -8,9 +8,10 @@ var postSchema = mongoose.Schema({
   filepath: String,
   type: {
     type: String,
-    enum: ["material", "test", "unconfirmed"],
+    enum: ["material", "test", "text", "unconfirmed"],
     default: "unconfirmed"
-  }
+  },
+  text: String,
 });
 
 module.exports = mongoose.model("LectureItem", postSchema);

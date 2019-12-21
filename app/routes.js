@@ -1,6 +1,8 @@
+var mongo = require('mongodb');
+var mongoose = require('mongoose');
 var Lecture = require("../app/models/post");
 var LectureItem = require("../app/models/lectureItem");
-const mongoose = require("mongoose");
+var User = require("../app/models/user");
 
 module.exports = function(app, passport, multer, storage) {
   // Main page
@@ -133,7 +135,7 @@ module.exports = function(app, passport, multer, storage) {
 
   app.post(
     "/postLectureItem/:id",
-    multer({ storage: storage, dest: "./uploads/" }).single("file"),
+    multer().none(),
     function(req, res) {
       console.log(mongoose.Types.ObjectId.isValid(req.params.id));
       if (!mongoose.Types.ObjectId.isValid(req.params.id))
@@ -177,4 +179,49 @@ module.exports = function(app, passport, multer, storage) {
     //Back to mainpage
     res.redirect("/");
   }
+
+
+  // Admin interface
+  app.get("/admin", isLoggedIn, function(req, res) {
+    User.find({}).exec(function(err, users) {
+      if (err) throw err;
+    res.render("adminInterface.ejs", {
+      user: req.user,
+      userList: users
+    });
+
+  })});
+
+// Admin interface - Edit user
+app.get("/editUser/:id", isLoggedIn, function(req, res) {
+  User.findOne({_id: req.params.id}).exec(function(err, user) {
+    if (err) throw err;
+  res.render("editUser.ejs", {
+    user: req.user,
+    userInfo: user
+  });
+})});
+
+app.post(
+  "/editUser/:id",
+  multer().none(),
+  function(req, res) {
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(404).send("Invalid ID.");
+
+    User.findOneAndUpdate({_id: req.params.id},
+      { $set: {"local.email": req.body.email,
+              "local.userType": req.body.userType,
+              "local.faculty": req.body.faculty}},
+      (err, doc) => {
+      if (err) {
+            console.log("Something wrong when updating data!");
+        }
+        console.log(doc);
+    });
+    
+    res.redirect("/admin");
+  }
+);
+
+
 };

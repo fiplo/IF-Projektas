@@ -1,0 +1,22 @@
+<div class="page-header text-center">
+        <h1><span class="fa fa-anchor"></span> Vartotojai</h1>
+  </div>
+  <hr class="my-4" /> 
+  
+  <div class="row text-center container">
+    <% userList.forEach(function(User) { %>
+      <div class="col-md-6">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-body ">
+            <p class="card-text"><strong>Id</strong>: <%= User._id %></p> 
+            <p class="card-text"><strong>El. pastas</strong>: <%= User.local.email %></p>
+            <p class="card-text"><strong>Vartotojo tipas</strong>: <%= User.local.userType %></p>
+            <p class="card-text"><strong>Fakultetas</strong>: <%= User.local.faculty %></p>
+            <a class="card-text" href="editUser/<%= User._id %>">Redaguoti</a>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+  <hr class="my-4" />
+  
