@@ -1,3 +1,5 @@
+var mongo = require('mongodb');
+var mongoose = require('mongoose');
 var Lecture = require("../app/models/post");
 var LectureItem = require("../app/models/lectureItem");
 var User = require("../app/models/user");
@@ -106,7 +108,7 @@ module.exports = function(app, passport, multer, storage) {
 
   app.post(
     "/postLectureItem/:id",
-    multer({ storage: storage, dest: "./uploads/" }).single("file"),
+    multer().none(),
     function(req, res) {
       console.log(req);
       var lectureItem = new LectureItem({
@@ -159,21 +161,29 @@ app.get("/editUser/:id", isLoggedIn, function(req, res) {
 
 app.post(
   "/editUser/:id",
+  multer().none(),
   function(req, res) {
-    var User = new User({
-      name: req.postname,
-      desc: req.body.postdesc,
-      name: req.body.postname,
-      created_at: Date.now(),
-    });
+    var user = User.findById({_id: req.params.id});
+    console.log(user.local.email);
 
-    User.findOneAndUpdate(function(err) {
+
+
+
+    /*
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(404).send("Invalid ID.");
+    User.findOneAndUpdate({ _id: req.params.id },
+      { email: req.body.email,
+      userType: req.body.userType,
+      faculty: req.body.faculty, }
+      )
+      .exec(function(err, user) {
       if (err) {
         console.log(err);
       } else {
         res.redirect("/admin");
       }
-    });
+     });*/
+     
   }
 );
 
