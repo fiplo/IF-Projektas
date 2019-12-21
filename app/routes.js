@@ -1,5 +1,6 @@
 var Lecture = require("../app/models/post");
 var LectureItem = require("../app/models/lectureItem");
+var User = require("../app/models/user");
 
 module.exports = function(app, passport, multer, storage) {
   // Main page
@@ -135,8 +136,46 @@ module.exports = function(app, passport, multer, storage) {
   }
 
 
+  // Admin interface
+  app.get("/admin", isLoggedIn, function(req, res) {
+    User.find({}).exec(function(err, users) {
+      if (err) throw err;
+    res.render("adminInterface.ejs", {
+      user: req.user,
+      userList: users
+    });
 
+  })});
 
+// Admin interface - Edit user
+app.get("/editUser/:id", isLoggedIn, function(req, res) {
+  User.findOne({_id: req.params.id}).exec(function(err, user) {
+    if (err) throw err;
+  res.render("editUser.ejs", {
+    user: req.user,
+    userInfo: user
+  });
+})});
+
+app.post(
+  "/editUser/:id",
+  function(req, res) {
+    var User = new User({
+      name: req.postname,
+      desc: req.body.postdesc,
+      name: req.body.postname,
+      created_at: Date.now(),
+    });
+
+    User.findOneAndUpdate(function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.redirect("/admin");
+      }
+    });
+  }
+);
 
 
 };

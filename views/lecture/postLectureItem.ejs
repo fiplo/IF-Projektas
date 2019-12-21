@@ -38,6 +38,11 @@
                 <label>Failas</label>
                 <input type="file" class="form-control" name="file">
                 `;
+            } else if(selectedValue === 'text') {
+                submitFileField.innerHTML = `
+                <label>Textas</label><br>
+                <textarea name="text" rows="5" cols="30"></textarea>
+                `;
             } else {
                 submitFileField.innerHTML = '';
             }
@@ -48,6 +53,7 @@
             <select name="type" id="typeDropdown" onChange="run();">
                 <option value="material">Medziaga</option>
                 <option value="test">Testas</option>
+                <option value="text">Tekstas</option>
             </select>
         </div>
 
