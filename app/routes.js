@@ -1,5 +1,6 @@
 var Lecture = require("../app/models/post");
 var LectureItem = require("../app/models/lectureItem");
+const mongoose = require("mongoose");
 
 module.exports = function(app, passport, multer, storage) {
   // Main page
@@ -94,20 +95,39 @@ module.exports = function(app, passport, multer, storage) {
 
   // Individual lecture
   app.get("/lecture/:id", isLoggedIn, function(req, res) {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+      return res.status(404).send("Invalid ID.");
     Lecture.findOne({ _id: req.params.id }).exec(function(err, lecture) {
       if (err) throw err;
-      res.render("lecture.ejs", { lecture: lecture, user: req.user });
+      LectureItem.find()
+        .where("_id")
+        .in(lecture.items)
+        .exec((err, records) => {
+          if (err) throw err;
+          console.log(records);
+          res.render("lecture.ejs", {
+            lecture: lecture,
+            user: req.user,
+            items: records
+          });
+        });
     });
   });
 
   // Posting inside lecture
   app.get("/postLectureItem/:id", isLoggedIn, function(req, res) {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+      return res.status(404).send("Invalid ID.");
     Lecture.findOne({ _id: req.params.id }).exec(function(err, lecture) {
       if (err) throw err;
-      res.render("lecture/postLectureItem.ejs", {
-        lecture: lecture,
-        user: req.user
-      });
+      if (!lecture) {
+        res.redirect("/list");
+      } else {
+        res.render("lecture/postLectureItem.ejs", {
+          lecture: lecture,
+          user: req.user
+        });
+      }
     });
   });
 
@@ -115,33 +135,37 @@ module.exports = function(app, passport, multer, storage) {
     "/postLectureItem/:id",
     multer({ storage: storage, dest: "./uploads/" }).single("file"),
     function(req, res) {
-      Lecture.findOne({ _id: req.params.id }).exec(function(err, lecture) {
-        if (err) throw err;
-        console.log(req);
-        var lectureItem = new LectureItem({
-          name: req.postname,
-          desc: req.body.postdesc,
-          name: req.body.postname,
-          filepath: req.file.path,
-          created_at: Date.now()
-        });
+      console.log(mongoose.Types.ObjectId.isValid(req.params.id));
+      if (!mongoose.Types.ObjectId.isValid(req.params.id))
+        return res.status(404).send("Invalid ID.");
+      if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+        Lecture.findById(req.params.id).exec(function(err, lecture) {
+          if (err) throw err;
+          console.log(req);
+          var lectureItem = new LectureItem({
+            name: req.postname,
+            desc: req.body.postdesc,
+            name: req.body.postname,
+            filepath: req.file.path,
+            created_at: Date.now()
+          });
 
-        lectureItem.save(function(err) {
-          if (err) {
-            console.log(err);
-          } else {
-            lecture.items.push(lectureItem._id);
-            lecture.save(function(err) {
-              if (err) {
-                console.log(err);
-              } else {
-                res.redirect("/lecture/" + req.params.id);
-              }
-            });
-          }
+          lectureItem.save(function(err) {
+            if (err) {
+              console.log(err);
+            } else {
+              lecture.items.push(lectureItem._id);
+              lecture.save(function(err) {
+                if (err) {
+                  console.log(err);
+                } else {
+                  res.redirect("/lecture/" + req.params.id);
+                }
+              });
+            }
+          });
         });
-        res.redirect("/lecture/" + req.params.id);
-      });
+      }
     }
   );
 
