@@ -22,29 +22,32 @@
                 <h3><span class="fa fa-user"></span> Vartotojo Informacija</h3>
 
                     <p>
-                        <strong>id</strong>: <%= user._id %><br>
-                        <strong>el. paštas</strong>: <%= user.local.email %><br>
+                        <strong>Id</strong>: <%= user._id %><br>
+                        <strong>El. paštas</strong>: <%= user.local.email %><br>
+                        <strong>Fakultetas</strong>: <%= user.local.faculty%><br>
                     </p>
 
             </div>
           </div>
         </div>
+        <% if(user.local.userType === 'admin') {%>
         <div class="col-sm-6">
            <div class="card mb-4 shadow-sm text-center">
              <div class="well">
-                  <h3><span class="fa fa-inbox"></span> Skelbimu įkelimas</h3>
+                  <h3><span class="fa fa-inbox"></span> Moduliu registravimas</h3>
                   <p>
                       <strong><a href="/post">Spustelėkite čia</a><br>
                   </p>
               </div>
             </div>
         </div>
+      <% } %>
     </div>
     <div class="row">
         <div class="col-sm-6">
           <div class="card mb-4 shadow-sm text-center">
             <div class="well">
-                <h3><span class="fa fa-bullhorn"></span> Skelbimai</h3>
+                <h3><span class="fa fa-bullhorn"></span> Visi moduliai</h3>
                 <p>
                     <strong><a href="/list">Spustelėkite čia</a><br>
                 </p>

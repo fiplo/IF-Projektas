@@ -1,15 +1,12 @@
 var mongoose = require("mongoose");
 
 var postSchema = mongoose.Schema({
-  originalname: String,
-  destination: String,
-  filename: String,
-  path: String,
-  postname: String,
+  name: String,
   desc: String,
   created_at: Date,
   updated_at: Date,
-  contact: String
+  contact: String,
+  items: Array
 });
 
-module.exports = mongoose.model("Offer", postSchema);
+module.exports = mongoose.model("Lecture", postSchema);

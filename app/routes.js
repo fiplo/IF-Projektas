@@ -1,4 +1,5 @@
-var Offer = require("../app/models/post");
+var Lecture = require("../app/models/post");
+var LectureItem = require("../app/models/lectureItem");
 
 module.exports = function(app, passport, multer, storage) {
   // Main page
@@ -50,7 +51,7 @@ module.exports = function(app, passport, multer, storage) {
 
   //Posting page
   app.get("/post", isLoggedIn, function(req, res) {
-    res.render("post.ejs", {
+    res.render("createTest.ejs", {
       user: req.user
     });
   });
@@ -60,18 +61,15 @@ module.exports = function(app, passport, multer, storage) {
     multer({ storage: storage, dest: "./uploads/" }).single("file"),
     function(req, res) {
       console.log(req);
-      var offer = new Offer({
-        originalname: req.file.originalname,
-        destination: req.file.destination,
-        filename: req.file.filename,
-        path: req.file.path,
-        postname: req.postname,
+      var lecture = new Lecture({
+        name: req.postname,
         desc: req.body.postdesc,
-        postname: req.body.postname,
+        name: req.body.postname,
         created_at: Date.now(),
-        contact: req.user.email
+        contact: req.user.email,
+        items: []
       });
-      offer.save(function(err) {
+      lecture.save(function(err) {
         if (err) {
           console.log(err);
         } else {
@@ -80,18 +78,58 @@ module.exports = function(app, passport, multer, storage) {
       });
     }
   );
+
   //Logout
   app.get("/logout", function(req, res) {
     req.logout();
     res.redirect("/");
   });
 
-  app.get("/list", function(req, res) {
-    Offer.find({}).exec(function(err, offer) {
+  app.get("/list", isLoggedIn, function(req, res) {
+    Lecture.find({}).exec(function(err, lectures) {
       if (err) throw err;
-      res.render("listposts.ejs", { offer: offer });
+      res.render("listLectures.ejs", { lectures: lectures });
     });
   });
+
+  // Individual lecture
+  app.get("/lecture/:id", isLoggedIn, function(req, res) {
+    Lecture.findOne({_id: req.params.id}).exec(function(err, lecture) {
+      if (err) throw err;
+      res.render("lecture.ejs", { lecture: lecture, user: req.user });
+    });
+  });
+
+
+  // Posting inside lecture
+  app.get("/postLectureItem/:id", isLoggedIn, function(req, res) {
+    Lecture.findOne({_id: req.params.id}).exec(function(err, lecture) {
+      if (err) throw err;
+      res.render("lecture/postLectureItem.ejs", { lecture: lecture, user: req.user });
+    });
+  });
+
+  app.post(
+    "/postLectureItem/:id",
+    multer({ storage: storage, dest: "./uploads/" }).single("file"),
+    function(req, res) {
+      console.log(req);
+      var lectureItem = new LectureItem({
+        name: req.postname,
+        desc: req.body.postdesc,
+        name: req.body.postname,
+        created_at: Date.now(),
+      });
+
+      lectureItem.save(function(err) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.redirect("/lecture/:id");
+        }
+      });
+    }
+  );
 
   //User checkup
   function isLoggedIn(req, res, next) {
@@ -101,4 +139,10 @@ module.exports = function(app, passport, multer, storage) {
     //Back to mainpage
     res.redirect("/");
   }
+
+
+
+
+
+
 };
