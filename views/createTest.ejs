@@ -15,34 +15,21 @@
 
     <!-- LOGIN FORM -->
     <form action="/post" method="post" enctype="multipart/form-data">
-      <div class="form-group">
-          <label>Sukurta</label>
-          <input type="text" class="form-control" value="<%= user.local.email %>" readonly>
-      </div>
-      <div class="form-group">
-          <label>Testo Pavadinimas</label>
-          <input type="text" class="form-control" name="postname">
-      </div>
-      <div class="form-group">
-          <label>Testo aprašymas</label>
-          <input type="text" class="form-control" name="postdesc">
-      </div>
-      <hr>
-        <% if(klcount) { %>
-          <% for (var i=0; i < klcount; i++) { %>
-            <div class="form-group">
-              <label>Klausimas</label>
-              <input type="text" class="form-control" name="question"/>
-            </div>
-          <% } %>
-        <% } %>
-      <hr>
+        <div class="form-group">
+            <label>Sukurta</label>
+            <input type="text" class="form-control" value="<%= user.local.email %>" readonly>
+        </div>
+        <div class="form-group">
+            <label>Testo Pavadinimas</label>
+            <input type="text" class="form-control" name="postname">
+        </div>
+        <div class="form-group">
+            <label>Testo aprašymas</label>
+            <input type="text" class="form-control" name="postdesc">
+        </div>
 
-      <button type="submit" class="btn btn-warning btn-lg" value="upload">Įkelti</button>
+        <button type="submit" class="btn btn-warning btn-lg" value="upload">Įkelti</button>
     </form>
-    <hr>
-    
-
 
     <hr>
 
