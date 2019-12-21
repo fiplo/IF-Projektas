@@ -6,7 +6,7 @@ var postSchema = mongoose.Schema({
   created_at: Date,
   updated_at: Date,
   contact: String,
-  items: Array
+  items: [{ type: mongoose.Schema.Types.ObjectId, ref: "LectureItem" }]
 });
 
 module.exports = mongoose.model("Lecture", postSchema);

@@ -94,18 +94,20 @@ module.exports = function(app, passport, multer, storage) {
 
   // Individual lecture
   app.get("/lecture/:id", isLoggedIn, function(req, res) {
-    Lecture.findOne({_id: req.params.id}).exec(function(err, lecture) {
+    Lecture.findOne({ _id: req.params.id }).exec(function(err, lecture) {
       if (err) throw err;
       res.render("lecture.ejs", { lecture: lecture, user: req.user });
     });
   });
 
-
   // Posting inside lecture
   app.get("/postLectureItem/:id", isLoggedIn, function(req, res) {
-    Lecture.findOne({_id: req.params.id}).exec(function(err, lecture) {
+    Lecture.findOne({ _id: req.params.id }).exec(function(err, lecture) {
       if (err) throw err;
-      res.render("lecture/postLectureItem.ejs", { lecture: lecture, user: req.user });
+      res.render("lecture/postLectureItem.ejs", {
+        lecture: lecture,
+        user: req.user
+      });
     });
   });
 
@@ -113,20 +115,32 @@ module.exports = function(app, passport, multer, storage) {
     "/postLectureItem/:id",
     multer({ storage: storage, dest: "./uploads/" }).single("file"),
     function(req, res) {
-      console.log(req);
-      var lectureItem = new LectureItem({
-        name: req.postname,
-        desc: req.body.postdesc,
-        name: req.body.postname,
-        created_at: Date.now(),
-      });
+      Lecture.findOne({ _id: req.params.id }).exec(function(err, lecture) {
+        if (err) throw err;
+        console.log(req);
+        var lectureItem = new LectureItem({
+          name: req.postname,
+          desc: req.body.postdesc,
+          name: req.body.postname,
+          filepath: req.file.path,
+          created_at: Date.now()
+        });
 
-      lectureItem.save(function(err) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.redirect("/lecture/:id");
-        }
+        lectureItem.save(function(err) {
+          if (err) {
+            console.log(err);
+          } else {
+            lecture.items.push(lectureItem._id);
+            lecture.save(function(err) {
+              if (err) {
+                console.log(err);
+              } else {
+                res.redirect("/lecture/" + req.params.id);
+              }
+            });
+          }
+        });
+        res.redirect("/lecture/" + req.params.id);
       });
     }
   );
@@ -139,10 +153,4 @@ module.exports = function(app, passport, multer, storage) {
     //Back to mainpage
     res.redirect("/");
   }
-
-
-
-
-
-
 };

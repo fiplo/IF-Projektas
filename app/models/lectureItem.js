@@ -5,11 +5,12 @@ var postSchema = mongoose.Schema({
   desc: String,
   created_at: Date,
   updated_at: Date,
+  filepath: String,
   type: {
     type: String,
     enum: ["material", "test", "unconfirmed"],
     default: "unconfirmed"
-  },
+  }
 });
 
 module.exports = mongoose.model("LectureItem", postSchema);

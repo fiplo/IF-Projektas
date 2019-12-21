@@ -10,7 +10,7 @@
 
     <h1 style="width: 600px;"><span class="fa fa-sign-in"></span> Modulio elemento kūrimas</h1>
 
-    <form action="/lecture/<%= lecture._id %>" method="post" enctype="multipart/form-data">
+    <form action="/postLectureItem/<%= lecture._id %>" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label>Vartotojas</label>
             <input type="text" class="form-control" value="<%= user.local.email %>" readonly>
@@ -35,8 +35,10 @@
 
             if(selectedValue === 'material'){
                 submitFileField.innerHTML = `
-                <label>Failas</label>
-                <input type="file" class="form-control" name="file">
+                <div class="form-group">
+                  <label>Failas</label>
+                  <input type="file" class="form-control" name="file">
+                </div>
                 `;
             } else {
                 submitFileField.innerHTML = '';
