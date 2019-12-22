@@ -1,0 +1,35 @@
+<!-- views/selectQuestion.ejs -->
+<!doctype html>
+<html>
+<head>
+  <%- include('partial/head.ejs') %>
+</head>
+<body>
+<div class="container">
+
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h1><span class="fa fa-sign-in"></span> Skelbimo kūrimas</h1>
+
+    <!-- show any messages that come back with authentication -->
+
+    <!-- LOGIN FORM -->
+    <form action="/post" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+          <label>Pasirinkite testo klausimu skaičių.</label>
+          <input type="text" class="form-control" value="1" name="numberofq">
+      </div>
+
+      <button type="submit" class="btn btn-warning btn-lg" value="upload">Įkelti</button>
+    </form>
+    <hr>
+    
+
+
+    <hr>
+
+</div>
+
+</div>
+</body>
+</html>

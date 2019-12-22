@@ -4,6 +4,8 @@ var Lecture = require("../app/models/post");
 var LectureItem = require("../app/models/lectureItem");
 var User = require("../app/models/user");
 var Message = require("../app/models/message");
+var Quiz = require("../app/models/test");
+var LectureStudentFile = require("../app/models/lectureStudentFile");
 
 module.exports = function(app, passport, multer, storage) {
   // Main page
@@ -47,11 +49,18 @@ module.exports = function(app, passport, multer, storage) {
     });
   });
 
-  app.get("/createtest", isLoggedIn, function(req, res) {
-    res.render("createtest.ejs", {
-      user: req.user
-    });
+  app.get("/createTest:id", isLoggedIn, function(req, res) {
+    if (isNaN(req.params.id)) {
+      res.render("specified number is not a number");
+    } else {
+      res.render("createTest.ejs", {
+        user: req.user,
+        klcount: req.params.id
+      });
+    }
   });
+
+  app.post("/createTest", multer().none(), function(req, res) {});
 
   // Edit Profile Page
   app.get("/editProfile", isLoggedIn, function(req, res) {
@@ -92,9 +101,21 @@ module.exports = function(app, passport, multer, storage) {
 
   // Posting page
   app.get("/post", isLoggedIn, function(req, res) {
-    res.render("createTest.ejs", {
+    res.render("post.ejs", {
       user: req.user
     });
+  });
+
+  app.get("/createTest", isLoggedIn, function(req, res) {
+    res.render("selectQuestion");
+  });
+
+  app.post("/post", multer().none(), function(req, res) {
+    if (isNaN(req.body.numberofq)) {
+      res.render("selectQuestion");
+    } else {
+      res.redirect("/createTest" + req.body.numberofq);
+    }
   });
 
   app.post(
@@ -211,52 +232,118 @@ module.exports = function(app, passport, multer, storage) {
     });
   });
 
-  app.post(
-    "/postLectureItem/:id",
-    multer({ storage: storage, dest: "./uploads/" }).single("file"),
-    function(req, res) {
-      console.log(mongoose.Types.ObjectId.isValid(req.params.id));
-      if (!mongoose.Types.ObjectId.isValid(req.params.id))
-        return res.status(404).send("Invalid ID.");
-      if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
-        Lecture.findById(req.params.id).exec(function(err, lecture) {
-          if (err) throw err;
-          console.log(req);
-          if (req.body.type == "material") {
-            var lectureItem = new LectureItem({
-              desc: req.body.postdesc,
-              name: req.body.postname,
-              filepath: req.file.path,
-              type: req.body.type,
-              created_at: Date.now()
-            });
-          } else {
-            /* Do Something When It's not file */
-            var lectureItem = new LectureItem({
-              desc: req.body.postdesc,
-              name: req.body.postname,
-              type: req.body.type,
-              created_at: Date.now()
-            });
-          }
+  app.post("/postLectureItem/:id", multer({ storage: storage, dest: "./uploads/" }).single("file"), function(req, res) {
+    console.log(mongoose.Types.ObjectId.isValid(req.params.id));
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+      return res.status(404).send("Invalid ID.");
+
+    if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+      Lecture.findById(req.params.id).exec(function(err, lecture) {
+        if (err) throw err;
+
+        if(req.body.type === 'material') {
+          var lectureItem = new LectureItem({
+            name: req.body.postname,
+            desc: req.body.postdesc,
+
+            type: "material",
+            filename: req.file.filename,
+            filepath: req.file.path,
+            test: null,
+            text: "",
+
+            requiresFile: req.body.fileRequired,
+            requiresFilename: "",
+            requiresFilepath: "",
+
+            created_at: Date.now()
+          });
+
           lectureItem.save(function(err) {
             if (err) {
               console.log(err);
             } else {
               lecture.items.push(lectureItem._id);
               lecture.save(function(err) {
-                if (err) {
-                  console.log(err);
-                } else {
-                  res.redirect("/lecture/" + req.params.id);
-                }
+                if (err) console.log(err);
               });
             }
           });
+        } else if(req.body.type === 'test') {
+          console.log('SENT TEST');
+          // ----- TODO :
+          // Create lectureItem as Test and assign it to lecture.
+
+
+
+
+
+
+
+          
+
+
+
+        } else if(req.body.type === 'text') {
+          console.log('SENT TEXT');
+          var lectureItem = new LectureItem({
+            name: req.body.postname,
+            desc: req.body.postdesc,
+
+            type: "text",
+            filename: "",
+            filepath: "",
+            test: null,
+            text: req.body.text,
+
+            requiresFile: req.body.fileRequired,
+            requiresFilename: "",
+            requiresFilepath: "",
+
+            created_at: Date.now()
+          });
+
+          lectureItem.save(function(err) {
+            if (err) {
+              console.log(err);
+            } else {
+              lecture.items.push(lectureItem._id);
+              lecture.save(function(err) {
+                if (err) console.log(err);
+              });
+            }
+          });
+        }
+
+        /*
+        var lectureItem = new LectureItem({
+          name: req.postname,
+          desc: req.body.postdesc,
+          name: req.body.postname,
+          filepath: req.file.path,
+          created_at: Date.now()
         });
-      }
+
+        lectureItem.save(function(err) {
+          if (err) {
+            console.log(err);
+          } else {
+            lecture.items.push(lectureItem._id);
+            lecture.save(function(err) {
+              if (err) {
+                console.log(err);
+              } else {
+                res.redirect("/lecture/" + req.params.id);
+              }
+            });
+          }
+        });
+        */
+       res.redirect("/lecture/" + req.params.id);
+      });
     }
-  );
+  });
 
   //User checkup
   function isLoggedIn(req, res, next) {
@@ -369,4 +456,37 @@ module.exports = function(app, passport, multer, storage) {
 
     res.redirect("/messages");
   });
+
+  // Posting file to lecture item
+  app.post("/postStudentFile/:id", isLoggedIn,
+  multer({ storage: storage, dest: "./uploads/" }).single("file"),
+  function(req, res) {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return res.status(404).send("Invalid ID.");
+
+    const newFile = new LectureStudentFile({
+      student: req.user,
+
+      filename: req.file.filename,
+      filepath: req.file.path,
+      created_at: Date.now(),
+    });
+
+    LectureItem.findOneAndUpdate(
+      { _id: req.params.id },
+      { $push: { "postedFiles": newFile } },
+      (err, doc) => {
+        if (err) {
+          console.log("Something wrong when updating data!");
+        }
+        console.log(doc);
+      }
+    );
+
+    newFile.save();
+
+    res.redirect("/list");
+  });
+
+
 };

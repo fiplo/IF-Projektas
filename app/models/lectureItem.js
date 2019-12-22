@@ -5,13 +5,20 @@ var postSchema = mongoose.Schema({
   desc: String,
   created_at: Date,
   updated_at: Date,
-  filepath: String,
+  
   type: {
     type: String,
     enum: ["material", "test", "text", "unconfirmed"],
     default: "unconfirmed"
   },
+
+  filename: String,
+  filepath: String,
+  test: Object,
   text: String,
+
+  requiresFile: Boolean,
+  postedFiles: [{ type: mongoose.Schema.Types.ObjectId, ref: "LectureStudentFile" }],
 });
 
 module.exports = mongoose.model("LectureItem", postSchema);
