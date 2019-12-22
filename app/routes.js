@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var Lecture = require("../app/models/post");
 var LectureItem = require("../app/models/lectureItem");
 var User = require("../app/models/user");
+var Message = require("../app/models/message");
 
 module.exports = function(app, passport, multer, storage) {
   // Main page
@@ -223,5 +224,60 @@ app.post(
   }
 );
 
+
+// Messaging
+app.get("/messages", isLoggedIn, function(req, res) {
+  User.find({}).exec(function(err, users) {
+    if (err) throw err;
+  res.render("messages.ejs", {
+    user: req.user,
+    userList: users,
+  });
+
+})});
+
+app.get("/newMessage", isLoggedIn, function(req, res) {
+  User.find().exec(function(err, users) {
+    if (err) throw err;
+
+  res.render("newMessage.ejs", {
+    user: req.user,
+    usersList: users,
+  });
+
+})});
+
+app.post(
+  "/newMessage",
+  isLoggedIn,
+  multer().none(),
+  function(req, res) {
+
+    const newMessage = new Message({
+      from: req.user._id,
+      to: req.body.receiver,
+      subject: req.body.subject,
+      text: req.body.message,
+    });
+
+    User.findOneAndUpdate({ _id: req.user._id }, { $push: { "local.messages.sent": newMessage }}, (err, doc) => {
+      if (err) {
+            console.log("Something wrong when updating data!");
+        }
+        console.log(doc);
+    });
+
+    User.findOneAndUpdate({ _id: req.body.receiver }, { $push: { "local.messages.received": newMessage }}, (err, doc) => {
+      if (err) {
+            console.log("Something wrong when updating data!");
+        }
+        console.log(doc);
+    });
+
+    newMessage.save();
+
+    res.redirect("/messages");
+  }
+);
 
 };
