@@ -1,0 +1,49 @@
+<!-- views/signup.ejs -->
+<!doctype html>
+<html>
+<head>
+  <%- include('partial/head.ejs') %>
+</head>
+<body>
+<div class="container">
+
+    <div class="col-sm-6 col-sm-offset-3">
+
+        <h1><span class="fa fa-sign-in"></span> Modulio kūrimas</h1>
+
+        <form action="/newMessage" method="post" enctype="multipart/form-data">
+
+            <div class="form-group">
+                <label>Nuo</label>
+                <input type="text" class="form-control" value="<%= user.local.email %>" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Kam</label><br>
+                <select name="receiver">
+                <% usersList.forEach(function(fUser) { %>
+                    <option value="<%= fUser._id %>" > <%= fUser.local.email%> </option>
+                <% }) %>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Tema</label>
+                <input type="text" class="form-control" name="subject">
+            </div>
+
+            <div class="form-group">
+                <label>Tektas</label><br>
+                <textarea rows="5" cols="60" name="message"></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-warning btn-lg" value="upload">Siusti</button>
+        </form>
+
+        <hr>
+
+    </div>
+
+</div>
+</body>
+</html>
