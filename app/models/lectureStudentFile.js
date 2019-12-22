@@ -3,6 +3,8 @@ var mongoose = require("mongoose");
 var postSchema = mongoose.Schema({
   student: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   lecturer: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  filename: String,
+  filepath: String,
 
   status: {
     type: String,
