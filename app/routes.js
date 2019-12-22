@@ -40,7 +40,7 @@ module.exports = function(app, passport, multer, storage) {
     })
   );
 
-  //Profile Page
+  // Profile Page
   app.get("/profile", isLoggedIn, function(req, res) {
     res.render("profile.ejs", {
       user: req.user
@@ -53,7 +53,34 @@ module.exports = function(app, passport, multer, storage) {
     });
   });
 
-  //Posting page
+  // Edit Profile Page
+  app.get("/editProfile", isLoggedIn, function(req, res) {
+    res.render("editProfile.ejs", {
+      user: req.user
+    });
+  });
+
+  app.post(
+    "/editProfile",
+    isLoggedIn,
+    multer({ storage: storage, dest: "./uploads/" }).single("file"),
+    function(req, res) {
+      User.findOneAndUpdate({_id: req.user._id},
+        { $set: { "local.about.text": req.body.about,
+                  "local.about.profileImage.filename": (req.file) !== undefined ? req.file.filename : "",
+                  "local.about.profileImage.destination": (req.file) !== undefined ? req.file.destination : "", }},
+        (err, doc) => {
+        if (err) {
+              console.log("Something wrong when updating data!");
+          }
+          console.log(doc);
+      });
+      
+      res.redirect("/profile");
+    }
+  );
+
+  // Posting page
   app.get("/post", isLoggedIn, function(req, res) {
     res.render("createTest.ejs", {
       user: req.user
