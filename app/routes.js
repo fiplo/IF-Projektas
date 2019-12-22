@@ -224,14 +224,20 @@ module.exports = function(app, passport, multer, storage) {
           console.log(req);
           if (req.body.type == "material") {
             var lectureItem = new LectureItem({
-              name: req.postname,
               desc: req.body.postdesc,
               name: req.body.postname,
               filepath: req.file.path,
+              type: req.body.type,
               created_at: Date.now()
             });
           } else {
             /* Do Something When It's not file */
+            var lectureItem = new LectureItem({
+              desc: req.body.postdesc,
+              name: req.body.postname,
+              type: req.body.type,
+              created_at: Date.now()
+            });
           }
           lectureItem.save(function(err) {
             if (err) {
