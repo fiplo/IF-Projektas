@@ -6,7 +6,7 @@
 <hr class="my-4" />   
 
 <div class="row text-center container">
-<% if(user.local.messages.received === 0) { %>
+<% if(user.local.messages.received == 0) { %>
     <p>You have no messages :(</p>
 <% } else { %>
     <% user.local.messages.received.forEach(function(message) { %>

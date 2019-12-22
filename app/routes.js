@@ -40,7 +40,7 @@ module.exports = function(app, passport, multer, storage) {
     })
   );
 
-  //Profile Page
+  // Profile Page
   app.get("/profile", isLoggedIn, function(req, res) {
     res.render("profile.ejs", {
       user: req.user
@@ -53,7 +53,39 @@ module.exports = function(app, passport, multer, storage) {
     });
   });
 
-  //Posting page
+  // Edit Profile Page
+  app.get("/editProfile", isLoggedIn, function(req, res) {
+    res.render("editProfile.ejs", {
+      user: req.user
+    });
+  });
+
+  app.post(
+    "/editProfile",
+    isLoggedIn,
+    multer({ storage: storage, dest: "./uploads/" }).single("file"),
+    function(req, res) {
+      User.findOneAndUpdate({_id: req.user._id},
+        (req.file) !== undefined ? 
+          { $set: { "local.about.text": req.body.about,
+            "local.about.profileImage.filename": req.file.filename,
+            "local.about.profileImage.destination": req.file.destination, } }
+            :
+            {
+              $set: { "local.about.text": req.body.about, },
+            },
+        (err, doc) => {
+        if (err) {
+              console.log("Something wrong when updating data!");
+          }
+          console.log(doc);
+      });
+      
+      res.redirect("/profile");
+    }
+  );
+
+  // Posting page
   app.get("/post", isLoggedIn, function(req, res) {
     res.render("createTest.ejs", {
       user: req.user
@@ -92,7 +124,7 @@ module.exports = function(app, passport, multer, storage) {
   app.get("/list", isLoggedIn, function(req, res) {
     Lecture.find({}).exec(function(err, lectures) {
       if (err) throw err;
-      res.render("listLectures.ejs", { lectures: lectures });
+      res.render("listLectures.ejs", { lectures: lectures, user: req.user });
     });
   });
 
@@ -116,6 +148,48 @@ module.exports = function(app, passport, multer, storage) {
         });
     });
   });
+
+  // Lecture editing
+  app.get("/editLecture/:id", isLoggedIn, function(req, res) {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+      return res.status(404).send("Invalid ID.");
+
+    Lecture.findOne({ _id: req.params.id }).exec(function(err, lecture) {
+      if (err) throw err;
+      LectureItem.find()
+        .where("_id")
+        .in(lecture.items)
+        .exec((err, records) => {
+          if (err) throw err;
+          console.log(records);
+          res.render("lecture/editLecture.ejs", {
+            lecture: lecture,
+            user: req.user,
+            items: records
+          });
+        });
+    });
+  });
+
+  app.post(
+    "/editLecture/:id",
+    multer().none(),
+    function(req, res) {
+      if(!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(404).send("Invalid ID.");
+  
+      Lecture.findOneAndUpdate({_id: req.params.id},
+        { $set: {"name": req.body.name,
+                "desc": req.body.desc, }},
+        (err, doc) => {
+        if (err) {
+              console.log("Something wrong when updating data!");
+          }
+          console.log(doc);
+      });
+      
+      res.redirect("/list");
+    }
+  );
 
   // Posting inside lecture
   app.get("/postLectureItem/:id", isLoggedIn, function(req, res) {

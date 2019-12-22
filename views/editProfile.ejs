@@ -1,0 +1,56 @@
+<html>
+<head>
+  <%- include('partial/head.ejs') %>
+</head>
+
+<body>
+<div class="container">
+
+    <div class="col-sm-6 col-sm-offset-3">
+
+        <h1 style="width: 500px;"><span class="fa fa-sign-in"></span> Profilio redagavimas</h1>
+    
+        <form action="/editProfile" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>ID</label>
+                <input type="text" class="form-control" value="<%= user._id %>" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>El. Pastas</label>
+                <input type="text" class="form-control" value="<%= user.local.email%>" readonly> 
+            </div>
+            
+            <div class="form-group">
+                <label>Paskyros tipas</label>
+                <input type="text" class="form-control" value="<%= user.local.userType%>" readonly> 
+            </div>
+
+            <div class="form-group">
+                <label>Fakultetas</label>
+                <input type="text" class="form-control" value="<%= user.local.faculty%>" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label>Apie mane:</label>
+                <textarea class="form-control" name="about"><%= user.local.about.text%></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Profilio nuotrauka:</label>
+                <img src="<%= user.local.about.profileImage.destination + user.local.about.profileImage.filename %>" class="card-img-top" width="auto" height="255" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                <input type="file" class="form-control" name="file">
+            </div>
+
+            <button type="submit" class="btn btn-warning btn-lg" value="upload">Atnaujinti</button>
+        </form>
+    
+        <hr>
+        
+    </div>
+
+</form>
+
+</div>
+</body>
+</html>
