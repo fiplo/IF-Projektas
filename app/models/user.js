@@ -3,8 +3,6 @@ var bcrypt = require("bcrypt-nodejs");
 
 var userSchema = mongoose.Schema({
   local: {
-    firstName: String,
-    lastName: String,
     email: String,
     password: String,
     firstName: String,
@@ -27,7 +25,12 @@ var userSchema = mongoose.Schema({
       sent: Array,
       received: Array,
     },
-  }
+
+    about: {
+      profileImage: { filename: String, destination: String, },
+      text: { type: String, default: "" },
+    },
+  },
 });
 
 // Gen Hash
