@@ -74,22 +74,27 @@ module.exports = function(app, passport, multer, storage) {
     isLoggedIn,
     multer({ storage: storage, dest: "./uploads/" }).single("file"),
     function(req, res) {
-      User.findOneAndUpdate({_id: req.user._id},
-        (req.file) !== undefined ? 
-          { $set: { "local.about.text": req.body.about,
-            "local.about.profileImage.filename": req.file.filename,
-            "local.about.profileImage.destination": req.file.destination, } }
-            :
-            {
-              $set: { "local.about.text": req.body.about, },
+      User.findOneAndUpdate(
+        { _id: req.user._id },
+        req.file !== undefined
+          ? {
+              $set: {
+                "local.about.text": req.body.about,
+                "local.about.profileImage.filename": req.file.filename,
+                "local.about.profileImage.destination": req.file.destination
+              }
+            }
+          : {
+              $set: { "local.about.text": req.body.about }
             },
         (err, doc) => {
-        if (err) {
-              console.log("Something wrong when updating data!");
+          if (err) {
+            console.log("Something wrong when updating data!");
           }
           console.log(doc);
-      });
-      
+        }
+      );
+
       res.redirect("/profile");
     }
   );
