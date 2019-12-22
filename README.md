@@ -1,6 +1,13 @@
-# Internetinių skelbimų portalas
+# Moodle 2.0 (Not actually)
 
-Kompiuterinių tinklų IT projektas, siekiantis padaryti paprastą skelbimų portalą
+Moodle 2.0 klonas skirtas buti kaip Informacinių sistemų pagrindų projektas.
+
+## Projekto nariai
+
+* **Paulius Ratkevičius** -- Atsakingas už projekto pagrindą, Prisijungimo sistema, Failų variklio sistema
+* **Liutauras Bitinas** -- Front-end, Destytojų-Studentų sistema
+* **Justinas Munius** -- Žinučių sistema
+
 
 ## Projekto Pasiruošimas 
 
@@ -19,18 +26,8 @@ Kompiuterinių tinklų IT projektas, siekiantis padaryti paprastą skelbimų por
 
 Turint projektui reikiamas priklausomybes, galime paprastai įsidiegti projektą.
 
-1. Nusiklonuojame projektą (pvz.: `git clone https://github.com/fiplo/It-Tinklai`).
+1. Nusiklonuojame projektą (pvz.: `git clone https://github.com/fiplo/IF-Projektas`).
 2. Įdiegiame reikiamus paketus paleidę komandą `npm install` komandinėję eilutėje.
 3. Paleidžiame projektą su komandą `npm start`.
 4. Projektas bus paleistas, jį galite pasiekti nuoruoda : [localhost:8080](http://localhost:8080).
 
-## TODO
-
-- Administratoriaus panelė
-- Skelbimų ištrynimas
-- Žinučių sistema
-- Vartotojų tipai
-- Kelių nuotraukų talpinimas
-
-## DB
-![DB scheme](http://www.plantuml.com/plantuml/png/SoWkIImgAStDuLBCp4lEAKr9BItAKSWeAIaejjBNJyyioIXDqalEpzLFoop8oTVtTDCDAChFIiqkIIpMBqeiryzDB2v9BT9toKykrW_rzT5tST8h09dca9gN0gG1)
