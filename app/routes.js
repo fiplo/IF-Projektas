@@ -1,5 +1,5 @@
-var mongo = require('mongodb');
-var mongoose = require('mongoose');
+var mongo = require("mongodb");
+var mongoose = require("mongoose");
 var Lecture = require("../app/models/post");
 var LectureItem = require("../app/models/lectureItem");
 var User = require("../app/models/user");
@@ -65,22 +65,27 @@ module.exports = function(app, passport, multer, storage) {
     isLoggedIn,
     multer({ storage: storage, dest: "./uploads/" }).single("file"),
     function(req, res) {
-      User.findOneAndUpdate({_id: req.user._id},
-        (req.file) !== undefined ? 
-          { $set: { "local.about.text": req.body.about,
-            "local.about.profileImage.filename": req.file.filename,
-            "local.about.profileImage.destination": req.file.destination, } }
-            :
-            {
-              $set: { "local.about.text": req.body.about, },
+      User.findOneAndUpdate(
+        { _id: req.user._id },
+        req.file !== undefined
+          ? {
+              $set: {
+                "local.about.text": req.body.about,
+                "local.about.profileImage.filename": req.file.filename,
+                "local.about.profileImage.destination": req.file.destination
+              }
+            }
+          : {
+              $set: { "local.about.text": req.body.about }
             },
         (err, doc) => {
-        if (err) {
-              console.log("Something wrong when updating data!");
+          if (err) {
+            console.log("Something wrong when updating data!");
           }
           console.log(doc);
-      });
-      
+        }
+      );
+
       res.redirect("/profile");
     }
   );
@@ -171,25 +176,23 @@ module.exports = function(app, passport, multer, storage) {
     });
   });
 
-  app.post(
-    "/editLecture/:id",
-    multer().none(),
-    function(req, res) {
-      if(!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(404).send("Invalid ID.");
-  
-      Lecture.findOneAndUpdate({_id: req.params.id},
-        { $set: {"name": req.body.name,
-                "desc": req.body.desc, }},
-        (err, doc) => {
+  app.post("/editLecture/:id", multer().none(), function(req, res) {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+      return res.status(404).send("Invalid ID.");
+
+    Lecture.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: { name: req.body.name, desc: req.body.desc } },
+      (err, doc) => {
         if (err) {
-              console.log("Something wrong when updating data!");
-          }
-          console.log(doc);
-      });
-      
-      res.redirect("/list");
-    }
-  );
+          console.log("Something wrong when updating data!");
+        }
+        console.log(doc);
+      }
+    );
+
+    res.redirect("/list");
+  });
 
   // Posting inside lecture
   app.get("/postLectureItem/:id", isLoggedIn, function(req, res) {
@@ -210,7 +213,7 @@ module.exports = function(app, passport, multer, storage) {
 
   app.post(
     "/postLectureItem/:id",
-    multer().none(),
+    multer({ storage: storage, dest: "./uploads/" }).single("file"),
     function(req, res) {
       console.log(mongoose.Types.ObjectId.isValid(req.params.id));
       if (!mongoose.Types.ObjectId.isValid(req.params.id))
@@ -219,14 +222,17 @@ module.exports = function(app, passport, multer, storage) {
         Lecture.findById(req.params.id).exec(function(err, lecture) {
           if (err) throw err;
           console.log(req);
-          var lectureItem = new LectureItem({
-            name: req.postname,
-            desc: req.body.postdesc,
-            name: req.body.postname,
-            filepath: req.file.path,
-            created_at: Date.now()
-          });
-
+          if (req.body.type == "material") {
+            var lectureItem = new LectureItem({
+              name: req.postname,
+              desc: req.body.postdesc,
+              name: req.body.postname,
+              filepath: req.file.path,
+              created_at: Date.now()
+            });
+          } else {
+            /* Do Something When It's not file */
+          }
           lectureItem.save(function(err) {
             if (err) {
               console.log(err);
@@ -255,103 +261,106 @@ module.exports = function(app, passport, multer, storage) {
     res.redirect("/");
   }
 
-
   // Admin interface
   app.get("/admin", isLoggedIn, function(req, res) {
     User.find({}).exec(function(err, users) {
       if (err) throw err;
-    res.render("adminInterface.ejs", {
-      user: req.user,
-      userList: users
+      res.render("adminInterface.ejs", {
+        user: req.user,
+        userList: users
+      });
     });
-
-  })});
-
-// Admin interface - Edit user
-app.get("/editUser/:id", isLoggedIn, function(req, res) {
-  User.findOne({_id: req.params.id}).exec(function(err, user) {
-    if (err) throw err;
-  res.render("editUser.ejs", {
-    user: req.user,
-    userInfo: user
   });
-})});
 
-app.post(
-  "/editUser/:id",
-  multer().none(),
-  function(req, res) {
-    if(!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(404).send("Invalid ID.");
+  // Admin interface - Edit user
+  app.get("/editUser/:id", isLoggedIn, function(req, res) {
+    User.findOne({ _id: req.params.id }).exec(function(err, user) {
+      if (err) throw err;
+      res.render("editUser.ejs", {
+        user: req.user,
+        userInfo: user
+      });
+    });
+  });
 
-    User.findOneAndUpdate({_id: req.params.id},
-      { $set: {"local.email": req.body.email,
-              "local.userType": req.body.userType,
-              "local.faculty": req.body.faculty}},
+  app.post("/editUser/:id", multer().none(), function(req, res) {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+      return res.status(404).send("Invalid ID.");
+
+    User.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $set: {
+          "local.email": req.body.email,
+          "local.userType": req.body.userType,
+          "local.faculty": req.body.faculty
+        }
+      },
       (err, doc) => {
-      if (err) {
-            console.log("Something wrong when updating data!");
+        if (err) {
+          console.log("Something wrong when updating data!");
         }
         console.log(doc);
-    });
-    
+      }
+    );
+
     res.redirect("/admin");
-  }
-);
-
-
-// Messaging
-app.get("/messages", isLoggedIn, function(req, res) {
-  User.find({}).exec(function(err, users) {
-    if (err) throw err;
-  res.render("messages.ejs", {
-    user: req.user,
-    userList: users,
   });
 
-})});
-
-app.get("/newMessage", isLoggedIn, function(req, res) {
-  User.find().exec(function(err, users) {
-    if (err) throw err;
-
-  res.render("newMessage.ejs", {
-    user: req.user,
-    usersList: users,
+  // Messaging
+  app.get("/messages", isLoggedIn, function(req, res) {
+    User.find({}).exec(function(err, users) {
+      if (err) throw err;
+      res.render("messages.ejs", {
+        user: req.user,
+        userList: users
+      });
+    });
   });
 
-})});
+  app.get("/newMessage", isLoggedIn, function(req, res) {
+    User.find().exec(function(err, users) {
+      if (err) throw err;
 
-app.post(
-  "/newMessage",
-  isLoggedIn,
-  multer().none(),
-  function(req, res) {
+      res.render("newMessage.ejs", {
+        user: req.user,
+        usersList: users
+      });
+    });
+  });
 
+  app.post("/newMessage", isLoggedIn, multer().none(), function(req, res) {
     const newMessage = new Message({
       from: req.user._id,
       to: req.body.receiver,
       subject: req.body.subject,
-      text: req.body.message,
+      text: req.body.message
     });
 
-    User.findOneAndUpdate({ _id: req.user._id }, { $push: { "local.messages.sent": newMessage }}, (err, doc) => {
-      if (err) {
-            console.log("Something wrong when updating data!");
+    User.findOneAndUpdate(
+      { _id: req.user._id },
+      { $push: { "local.messages.sent": newMessage } },
+      (err, doc) => {
+        if (err) {
+          console.log("Something wrong when updating data!");
         }
         console.log(doc);
-    });
+      }
+    );
 
-    User.findOneAndUpdate({ _id: req.body.receiver }, { $push: { "local.messages.received": newMessage }}, (err, doc) => {
-      if (err) {
-            console.log("Something wrong when updating data!");
+    User.findOneAndUpdate(
+      { _id: req.body.receiver },
+      { $push: { "local.messages.received": newMessage } },
+      (err, doc) => {
+        if (err) {
+          console.log("Something wrong when updating data!");
         }
         console.log(doc);
-    });
+      }
+    );
 
     newMessage.save();
 
     res.redirect("/messages");
-  }
-);
-
+  });
 };
