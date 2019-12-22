@@ -5,6 +5,7 @@ var LectureItem = require("../app/models/lectureItem");
 var User = require("../app/models/user");
 var Message = require("../app/models/message");
 var Quiz = require("../app/models/test");
+var LectureStudentFile = require("../app/models/lectureStudentFile");
 
 module.exports = function(app, passport, multer, storage) {
   // Main page
@@ -95,7 +96,7 @@ module.exports = function(app, passport, multer, storage) {
 
   // Posting page
   app.get("/post", isLoggedIn, function(req, res) {
-    res.render("createTest.ejs", {
+    res.render("post.ejs", {
       user: req.user
     });
   });
@@ -247,6 +248,10 @@ module.exports = function(app, passport, multer, storage) {
             test: null,
             text: "",
 
+            requiresFile: req.body.fileRequired,
+            requiresFilename: "",
+            requiresFilepath: "",
+
             created_at: Date.now()
           });
 
@@ -286,6 +291,10 @@ module.exports = function(app, passport, multer, storage) {
             filepath: "",
             test: null,
             text: req.body.text,
+
+            requiresFile: req.body.fileRequired,
+            requiresFilename: "",
+            requiresFilepath: "",
 
             created_at: Date.now()
           });
@@ -442,4 +451,37 @@ module.exports = function(app, passport, multer, storage) {
 
     res.redirect("/messages");
   });
+
+  // Posting file to lecture item
+  app.post("/postStudentFile/:id", isLoggedIn,
+  multer({ storage: storage, dest: "./uploads/" }).single("file"),
+  function(req, res) {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return res.status(404).send("Invalid ID.");
+
+    const newFile = new LectureStudentFile({
+      student: req.user,
+
+      filename: req.file.filename,
+      filepath: req.file.path,
+      created_at: Date.now(),
+    });
+
+    LectureItem.findOneAndUpdate(
+      { _id: req.params.id },
+      { $push: { "postedFiles": newFile } },
+      (err, doc) => {
+        if (err) {
+          console.log("Something wrong when updating data!");
+        }
+        console.log(doc);
+      }
+    );
+
+    newFile.save();
+
+    res.redirect("/list");
+  });
+
+
 };

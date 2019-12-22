@@ -16,6 +16,9 @@ var postSchema = mongoose.Schema({
   filepath: String,
   test: Object,
   text: String,
+
+  requiresFile: Boolean,
+  postedFiles: [{ type: mongoose.Schema.Types.ObjectId, ref: "LectureStudentFile" }],
 });
 
 module.exports = mongoose.model("LectureItem", postSchema);

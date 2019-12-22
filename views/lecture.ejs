@@ -28,7 +28,19 @@
                     <div style="background: linear-gradient( rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)); border-radius: 10px;">
                         <p style="padding-left: 10px;"><%= item.text %></p>
                     </div>
-                <% } %>
+
+                    <% if(item.requiresFile === true && user.local.userType === "student" ) { %>
+
+                        <p>Pateikite faila:</p>
+                        <form action="/postStudentFile/<%= item._id%>" method="post" enctype="multipart/form-data">
+        
+                            <div class="form-group">
+                                <input type="file" class="form-control" name="file">
+                            </div>
+
+                            <button type="submit" class="btn btn-warning btn-lg" value="upload">Įkelti</button>
+                        </form>
+                <% }} %>
 
                 <% if(item.type === "test") { %>
                     <%
