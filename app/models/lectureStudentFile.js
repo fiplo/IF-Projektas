@@ -6,6 +6,9 @@ var postSchema = mongoose.Schema({
   name: String,
   desc: String,
 
+  commentByStudent: String,
+  commentByDestytojas: String,
+
   status: {
     type: String,
     enum: ["tobeuploaded", "uploaded", "checked"],

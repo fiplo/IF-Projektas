@@ -393,6 +393,64 @@ module.exports = function(app, passport, multer, storage) {
     res.redirect("/admin");
   });
 
+  //Lecturer requesting Students assignment
+  app.get("/requestStudentFile", isLoggedIn, function(req, res) {
+    User.find({ type: "student" }).exec(function(err, users) {
+      if (err) throw err;
+      res.render("request.ejs", {
+        user: req.user,
+        usersList: users
+      });
+    });
+  });
+
+  app.post("/requestStudentFile", isLoggedIn, multer().none(), function(
+    req,
+    res
+  ) {
+    const newRequest = new LectureStudentFile({
+      student: req.body.receiver,
+      lecturer: req.user._id,
+      name: req.body.postname,
+      desc: req.body.postdesc
+    });
+    newRequest.save();
+    res.redirect("/profile");
+  });
+
+  //Student answering Lecturers assignment
+  app.get("/answerRequest/:id", isLoggedIn, function(req, res) {
+    LectureStudentFile.find({ _id: req.params.id }).exec(function(err, files) {
+      if (err) throw err;
+      res.render("answer.ejs", (request: files));
+    });
+  });
+
+  app.post(
+    "/answerRequest/:id",
+    isLoggedIn,
+    multer({ storage: storage, dest: "./uploads/" }).single("file"),
+    function(req, res) {
+      Lecture.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $push: {
+            filepath: req.file.path,
+            filename: req.file.name,
+            status: "uploaded"
+          }
+        },
+        (err, doc) => {
+          if (err) {
+            console.log("failure in updating data of answerRequest");
+          }
+          console.log(doc);
+        }
+      );
+      res.redirect("/profile");
+    }
+  );
+
   // Messaging
   app.get("/messages", isLoggedIn, function(req, res) {
     User.find({}).exec(function(err, users) {
