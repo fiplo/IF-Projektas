@@ -12,16 +12,47 @@
     <div class="jumbotron" style="padding-top: 32px;">
         <h3>Modulio failai</h3>
         <hr>
-        <% if( items.length !== 0) { %>
-            <div> 
+        <% if(items.length !== 0) { %>
             <% items.forEach(item => { %>
-                <h5>Name: <%= item.name %></h5>
-                <p>Desc: <%= item.desc %></p>
-                <p>Type: <%= item.type %></p>
-                <a href="/<%= item.filepath %>">Open file</a>
+                <div> 
+                <h5>Pavadinimas: <%= item.name %></h5>
+                <p>Aprasymas: <%= item.desc %></p>
+                <p>Tipas: <%= item.type %></p>
+
+                <% if(item.type === "material") { %>
+                    <a href="/<%= item.filepath %>">Open file</a>
+                <% } %>
+
+                <% if(item.type === "text") { %>
+                    <p>Tekstas:</p>
+                    <div style="background: linear-gradient( rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)); border-radius: 10px;">
+                        <p style="padding-left: 10px;"><%= item.text %></p>
+                    </div>
+
+                    <% if(item.requiresFile === true && user.local.userType === "student" ) { %>
+
+                        <p>Pateikite faila:</p>
+                        <form action="/postStudentFile/<%= item._id%>" method="post" enctype="multipart/form-data">
+        
+                            <div class="form-group">
+                                <input type="file" class="form-control" name="file">
+                            </div>
+
+                            <button type="submit" class="btn btn-warning btn-lg" value="upload">Įkelti</button>
+                        </form>
+                <% }} %>
+
+                <% if(item.type === "test") { %>
+                    <%
+                    /* TODO: Add button to open the test
+                    <a href="">Open file</a>
+                    */
+                    %>
+                <% } %>
+
+                <hr>
+                </div>
             <% }) %>
-            <hr>
-            </div>
         <% } %>
 
         <% if(user.local.userType === 'admin' || user.local.userType === 'lecturer') {%>
