@@ -4,7 +4,6 @@ var Lecture = require("../app/models/post");
 var LectureItem = require("../app/models/lectureItem");
 var User = require("../app/models/user");
 var Message = require("../app/models/message");
-var Quiz = require("../app/models/test");
 
 module.exports = function(app, passport, multer, storage) {
   // Main page
@@ -194,14 +193,27 @@ module.exports = function(app, passport, multer, storage) {
     });
   });
 
-  app.post("/postLectureItem/:id", multer().none(), function(req, res) {
+  app.post("/postLectureItem/:id", multer({ storage: storage, dest: "./uploads/" }).single("file"), function(req, res) {
     console.log(mongoose.Types.ObjectId.isValid(req.params.id));
+
     if (!mongoose.Types.ObjectId.isValid(req.params.id))
       return res.status(404).send("Invalid ID.");
+
     if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
       Lecture.findById(req.params.id).exec(function(err, lecture) {
         if (err) throw err;
-        console.log(req);
+
+        if(req.body.type === 'material') {
+          console.log('SENT MATERIAL');
+        } else if(req.body.type === 'test') {
+          console.log('SENT TEST');
+
+        } else if(req.body.type === 'text') {
+          console.log('SENT TEXT');
+
+        }
+
+        /*
         var lectureItem = new LectureItem({
           name: req.postname,
           desc: req.body.postdesc,
@@ -224,6 +236,8 @@ module.exports = function(app, passport, multer, storage) {
             });
           }
         });
+        */
+       res.redirect("/lecture/" + req.params.id);
       });
     }
   });
