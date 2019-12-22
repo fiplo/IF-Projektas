@@ -66,9 +66,14 @@ module.exports = function(app, passport, multer, storage) {
     multer({ storage: storage, dest: "./uploads/" }).single("file"),
     function(req, res) {
       User.findOneAndUpdate({_id: req.user._id},
-        { $set: { "local.about.text": req.body.about,
-                  "local.about.profileImage.filename": (req.file) !== undefined ? req.file.filename : "",
-                  "local.about.profileImage.destination": (req.file) !== undefined ? req.file.destination : "", }},
+        (req.file) !== undefined ? 
+          { $set: { "local.about.text": req.body.about,
+            "local.about.profileImage.filename": req.file.filename,
+            "local.about.profileImage.destination": req.file.destination, } }
+            :
+            {
+              $set: { "local.about.text": req.body.about, },
+            },
         (err, doc) => {
         if (err) {
               console.log("Something wrong when updating data!");
