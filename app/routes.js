@@ -92,7 +92,7 @@ module.exports = function(app, passport, multer, storage) {
   app.get("/list", isLoggedIn, function(req, res) {
     Lecture.find({}).exec(function(err, lectures) {
       if (err) throw err;
-      res.render("listLectures.ejs", { lectures: lectures });
+      res.render("listLectures.ejs", { lectures: lectures, user: req.user });
     });
   });
 
@@ -116,6 +116,48 @@ module.exports = function(app, passport, multer, storage) {
         });
     });
   });
+
+  // Lecture editing
+  app.get("/editLecture/:id", isLoggedIn, function(req, res) {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+      return res.status(404).send("Invalid ID.");
+
+    Lecture.findOne({ _id: req.params.id }).exec(function(err, lecture) {
+      if (err) throw err;
+      LectureItem.find()
+        .where("_id")
+        .in(lecture.items)
+        .exec((err, records) => {
+          if (err) throw err;
+          console.log(records);
+          res.render("lecture/editLecture.ejs", {
+            lecture: lecture,
+            user: req.user,
+            items: records
+          });
+        });
+    });
+  });
+
+  app.post(
+    "/editLecture/:id",
+    multer().none(),
+    function(req, res) {
+      if(!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(404).send("Invalid ID.");
+  
+      Lecture.findOneAndUpdate({_id: req.params.id},
+        { $set: {"name": req.body.name,
+                "desc": req.body.desc, }},
+        (err, doc) => {
+        if (err) {
+              console.log("Something wrong when updating data!");
+          }
+          console.log(doc);
+      });
+      
+      res.redirect("/list");
+    }
+  );
 
   // Posting inside lecture
   app.get("/postLectureItem/:id", isLoggedIn, function(req, res) {
