@@ -37,7 +37,13 @@ app.use(bodyParser.json()); // get info from html forms
 app.set("view engine", "ejs"); // ejs templating
 
 // Passport configuration
-app.use(session({ secret: "itreallydobelikethatsometimes" })); // session secret
+app.use(
+  session({
+    secret: "itreallydobelikethatsometimes",
+    resave: true,
+    saveUninitialized: true
+  })
+); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // Persistent login sessions
 app.use(flash());

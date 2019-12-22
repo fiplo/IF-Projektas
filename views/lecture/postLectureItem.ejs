@@ -43,7 +43,13 @@
             } else if(selectedValue === 'text') {
                 submitFileField.innerHTML = `
                 <label>Textas</label><br>
-                <textarea name="text" rows="5" cols="30"></textarea>
+                <textarea name="text" rows="5" cols="30"></textarea><br>
+                
+                <label>Reikalauti prikabinto failo?</label>
+                <select name="fileRequired" id="typeDropdown">
+                    <option value="false">Ne</option>
+                    <option value="true">Taip</option>
+                </select>
                 `;
             } else {
                 submitFileField.innerHTML = '';
