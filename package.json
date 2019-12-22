@@ -21,7 +21,7 @@
     "gitignore": "^0.6.0",
     "gridfs-stream": "^1.1.1",
     "method-override": "~2.3.6",
-    "mongoose": "^5.7.13",
+    "mongoose": "^5.8.2",
     "morgan": "^1.9.1",
     "multer": "^1.4.2",
     "multer-gridfs-storage": "^4.0.1",

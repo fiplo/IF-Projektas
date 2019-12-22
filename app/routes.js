@@ -280,4 +280,59 @@ app.post(
   }
 );
 
+  // assign stud list
+  app.get("/assignstud", isLoggedIn, function(req, res) {
+    User.find({ "local.userType":"student"}).exec(function(err, users) {
+      if (err) throw err;
+      res.render("assignStudent.ejs", {
+        user: req.user,
+        userList: users
+      });
+
+    })});
+
+// Assign student interface
+  app.get("/assignstud/:id", isLoggedIn, function(req, res, next) {
+    User.findOne({_id: req.params.id}).exec(function(err, user) {
+      if (err) throw err;
+      res.locals.stud = user;
+      next();
+      /*res.render("assignStudForm.ejs", {
+        user: req.user,
+        userInfo: user
+      });*/
+    })
+  }, function(req, res) {
+    Lecture.find({}).exec(function(err, lectures) {
+      if (err) throw err;
+
+      res.render("assignStudForm.ejs", {
+        user: req.user,
+        studInfo: res.locals.stud,
+        lectures: lectures
+      });
+    })
+  });
+
+  app.post(
+      "/assignstud/:id",
+      multer().none(),
+      function(req, res) {
+        if(!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(404).send("Invalid ID.");
+
+        User.findOneAndUpdate({_id: req.params.id},
+            { $addToSet: {"local.lectures": req.body.lecture
+            }},
+            (err, doc) => {
+              if (err) {
+                console.log("Something wrong when updating data!");
+              }
+              console.log(doc);
+            });
+
+        res.redirect("/assignstud");
+      }
+  );
+
+
 };
