@@ -11,7 +11,7 @@
             <h2 class="card-text"> <%= Lectures.name %></h2> 
             <p class="card-text"><%= Lectures.desc %></p>
             <a class="card-text" href="lecture/<%= Lectures._id %>">Perziureti</a><br>
-            <% if(user.local.userType === "admin") { %>
+            <% if(user.local.userType === "admin" || user.local.userType === "lecturer") { %>
               <a class="card-text" href="editLecture/<%= Lectures._id %>">Redaguoti</a>
             <% } %>
           </div>

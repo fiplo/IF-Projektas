@@ -4,6 +4,7 @@ var Lecture = require("../app/models/post");
 var LectureItem = require("../app/models/lectureItem");
 var User = require("../app/models/user");
 var Message = require("../app/models/message");
+var Quiz = require("../app/models/test");
 
 module.exports = function(app, passport, multer, storage) {
   // Main page
@@ -204,13 +205,69 @@ module.exports = function(app, passport, multer, storage) {
         if (err) throw err;
 
         if(req.body.type === 'material') {
-          console.log('SENT MATERIAL');
+          var lectureItem = new LectureItem({
+            name: req.body.postname,
+            desc: req.body.postdesc,
+
+            type: "material",
+            filename: req.file.filename,
+            filepath: req.file.path,
+            test: null,
+            text: "",
+
+            created_at: Date.now()
+          });
+
+          lectureItem.save(function(err) {
+            if (err) {
+              console.log(err);
+            } else {
+              lecture.items.push(lectureItem._id);
+              lecture.save(function(err) {
+                if (err) console.log(err);
+              });
+            }
+          });
         } else if(req.body.type === 'test') {
           console.log('SENT TEST');
+          // ----- TODO :
+          // Create lectureItem as Test and assign it to lecture.
+
+
+
+
+
+
+
+          
+
+
 
         } else if(req.body.type === 'text') {
           console.log('SENT TEXT');
+          var lectureItem = new LectureItem({
+            name: req.body.postname,
+            desc: req.body.postdesc,
 
+            type: "text",
+            filename: "",
+            filepath: "",
+            test: null,
+            text: req.body.text,
+
+            created_at: Date.now()
+          });
+
+          lectureItem.save(function(err) {
+            if (err) {
+              console.log(err);
+            } else {
+              lecture.items.push(lectureItem._id);
+              lecture.save(function(err) {
+                if (err) console.log(err);
+              });
+            }
+          });
         }
 
         /*
