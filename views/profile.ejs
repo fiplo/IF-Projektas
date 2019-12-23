@@ -3,6 +3,12 @@
   <%- include('partial/head.ejs') %>
 </head>
 <body>
+
+<% if(user.local.userType === 'unconfirmed') { %>
+<div class="container">
+  <p>Jusu paskyra uzregistruota. Prasome palaukti kol administratorius Jus patvirtins.</p>
+</div>
+<% } else { %>
 <div class="container">
 
     <div class="page-header text-center">
@@ -107,5 +113,6 @@
       </div>
 
 </div>
+<% } %>
 </body>
 </html>
