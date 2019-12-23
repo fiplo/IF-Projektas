@@ -5,6 +5,7 @@ var postSchema = mongoose.Schema({
   lecturer: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   name: String,
   desc: String,
+  result: Number,
 
   commentByStudent: String,
   commentByDestytojas: String,
@@ -17,7 +18,8 @@ var postSchema = mongoose.Schema({
 
   filename: String,
   filepath: String,
-  created_at: Date
+  created_at: Date,
+  dateuntil: Date
 });
 
 module.exports = mongoose.model("LectureStudentFile", postSchema);

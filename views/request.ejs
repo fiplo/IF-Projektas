@@ -11,7 +11,7 @@
 
         <h1><span class="fa fa-sign-in"></span> Uzduoties pateikimas</h1>
 
-        <form action="/" method="post" enctype="multipart/form-data">
+        <form action="/requestStudentFile" method="post" enctype="multipart/form-data">
 
             <div class="form-group">
                 <label>Nuo</label>
@@ -30,17 +30,17 @@
 
             <div class="form-group">
                 <label>Pavadinimas</label>
-                <input type="text" class="form-control" name="name">
+                <input type="text" class="form-control" name="postname">
             </div>
 
             <div class="form-group">
                 <label>Aprasymas</label><br>
-                <textarea rows="5" cols="60" name="desc"></textarea>
+                <textarea rows="5" cols="60" name="postdesc"></textarea>
             </div>
 
             <div class="form-group">
                 <label>Atlikti iki:</label><br>
-                <input type="date" class="form-control" name="name">
+                <input type="date" class="form-control" name="dateuntil">
             </div>
             
             <button type="submit" class="btn btn-warning btn-lg" value="upload">Siusti</button>

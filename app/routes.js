@@ -44,8 +44,26 @@ module.exports = function(app, passport, multer, storage) {
 
   // Profile Page
   app.get("/profile", isLoggedIn, function(req, res) {
-    res.render("profile.ejs", {
-      user: req.user
+    LectureStudentFile.find({
+      $or: [{ student: req.user._id }, { lecturer: req.user._id }]
+    }).exec(function(err, uzduotis) {
+      if (err) throw err;
+      res.render("profile.ejs", {
+        user: req.user,
+        assignments: uzduotis
+      });
+    });
+  });
+  //List of tasks related to User
+  app.get("/tasks", isLoggedIn, function(req, res) {
+    LectureStudentFile.find({
+      $or: [{ student: req.user._id }, { lecturer: req.user._id }]
+    }).exec(function(err, uzduotis) {
+      if (err) throw err;
+      res.render("listAssin.ejs", {
+        user: req.user,
+        assignments: uzduotis
+      });
     });
   });
 
@@ -122,7 +140,6 @@ module.exports = function(app, passport, multer, storage) {
     "/post",
     multer({ storage: storage, dest: "./uploads/" }).single("file"),
     function(req, res) {
-      console.log(req);
       var lecture = new Lecture({
         name: req.postname,
         desc: req.body.postdesc,
@@ -395,7 +412,7 @@ module.exports = function(app, passport, multer, storage) {
 
   //Lecturer requesting Students assignment
   app.get("/requestStudentFile", isLoggedIn, function(req, res) {
-    User.find({ type: "student" }).exec(function(err, users) {
+    User.find({}).exec(function(err, users) {
       if (err) throw err;
       res.render("request.ejs", {
         user: req.user,
@@ -412,7 +429,8 @@ module.exports = function(app, passport, multer, storage) {
       student: req.body.receiver,
       lecturer: req.user._id,
       name: req.body.postname,
-      desc: req.body.postdesc
+      desc: req.body.postdesc,
+      dateuntil: req.body.dateuntil
     });
     newRequest.save();
     res.redirect("/profile");
@@ -420,9 +438,13 @@ module.exports = function(app, passport, multer, storage) {
 
   //Student answering Lecturers assignment
   app.get("/answerRequest/:id", isLoggedIn, function(req, res) {
-    LectureStudentFile.find({ _id: req.params.id }).exec(function(err, files) {
+    LectureStudentFile.findOne({ _id: req.params.id }).exec(function(
+      err,
+      files
+    ) {
       if (err) throw err;
-      res.render("answer.ejs", (request: files));
+      console.log(files);
+      res.render("assignmentUpload.ejs", { user: req.user, reqf: files });
     });
   });
 
@@ -431,25 +453,46 @@ module.exports = function(app, passport, multer, storage) {
     isLoggedIn,
     multer({ storage: storage, dest: "./uploads/" }).single("file"),
     function(req, res) {
-      Lecture.findOneAndUpdate(
-        { _id: req.params.id },
-        {
-          $push: {
-            filepath: req.file.path,
-            filename: req.file.name,
-            status: "uploaded"
-          }
-        },
-        (err, doc) => {
-          if (err) {
-            console.log("failure in updating data of answerRequest");
-          }
-          console.log(doc);
-        }
-      );
-      res.redirect("/profile");
+      LectureStudentFile.findOne({ _id: req.params.id }, function(err, data) {
+        data.filepath = req.file.path;
+        data.filename = req.file.name;
+        data.status = "uploaded";
+        data.save();
+        res.redirect("/profile");
+      });
     }
   );
+
+  //Lecturer evalueates assignment
+  app.get("/evaluateAss/:id", isLoggedIn, function(req, res) {
+    LectureStudentFile.findOne({ _id: req.params.id }).exec(function(
+      err,
+      files
+    ) {
+      var doc = files;
+      if (err) throw err;
+      console.log(files);
+      User.findOne({ _id: files.student }).exec(function(err, student, files) {
+        console.log(student);
+        console.log(doc);
+        if (err) throw err;
+        res.render("assignmentEvaluation.ejs", {
+          user: req.user,
+          reqf: doc,
+          studentas: student
+        });
+      });
+    });
+  });
+
+  app.post("/evaluateAss/:id", isLoggedIn, multer().none(), function(req, res) {
+    LectureStudentFile.findOne({ _id: req.params.id }, function(err, data) {
+      data.status = "checked";
+      data.result = req.body.mark;
+      data.save();
+      res.redirect("/profile");
+    });
+  });
 
   // Messaging
   app.get("/messages", isLoggedIn, function(req, res) {

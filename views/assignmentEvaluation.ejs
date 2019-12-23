@@ -11,39 +11,46 @@
 
         <h1 style="width: 500px;"><span class="fa fa-sign-in"></span> Atsiskaitymo ivertinimas</h1>
 
-        <form action="/" method="post" enctype="multipart/form-data">
+        <form action="/evaluateAss/<%=reqf._id%>" method="post" enctype="multipart/form-data">
 
             <div class="form-group">
                 <label>Vertintojas</label>
                 <input type="text" class="form-control" value="<%= user.local.email %>" readonly>
             </div>
 
+            <br>
             <div class="form-group">
                 <label>Studentas</label>
-                <input type="text" class="form-control" value="<%= //assignment.student %>" readonly>
+                <input type="text" class="form-control" value="<%= studentas.local.email %>" readonly>
             </div>
 
+            <br>
             <div class="form-group">
                 <label>Atsiskaitymas</label>
-                <h4><%= //assignment.name%></h4>
+                <h4><%= reqf.name %></h4>
             </div>
 
+            <br>
             <div class="form-group">
                 <label>Atsiskaitymo aprasymas</label><br>
-                <p><%=//assignment.desc%></p>
+                <p><%= reqf.desc %></p>
             </div>
+            <br>
 
             <div class="form-group">
                 <label>Atlikti iki:</label><br>
-                <p><%= //assignment.completeUntil%></p>
+                <p><%= reqf.dateUntil %></p>
             </div>
+            <br>
 
-            <button type="button" class="btn btn-primary" onclick="//location.href = '/*redirect to student's file*';">Perziureti darba</button>
+            <button type="button" class="btn btn-primary" onclick="location.href = '/<%= reqf.filepath %>';">Perziureti darba</button>
+            <br>
             
             <div class="form-group">
                 <label>Pazimys</label><br>
                 <input type="number" class="form-control" name="mark">
             </div>
+            <br>
 
 
             <button type="submit" class="btn btn-warning btn-lg" value="upload">Ivertinti</button>

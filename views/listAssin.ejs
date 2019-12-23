@@ -1,0 +1,21 @@
+<html>
+<head>
+  <%- include('partial/head.ejs') %>
+</head>
+<body>
+<div class="container">
+
+    <div class="page-header text-center">
+        <h1><span class="fa fa-anchor"></span>Uzduotys</h1>
+        <a href="/profile" class="btn btn-default btn-sm">Atgal</a>
+    </div>
+
+
+    <hr class="my-4">
+
+    <div class="row text-break">
+    <%- include('lecture/listassignments.ejs') %>
+    </div>
+</div>
+</body>
+</html>

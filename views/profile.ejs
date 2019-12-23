@@ -24,6 +24,7 @@
                     <p>
                         <strong>Id</strong>: <%= user._id %><br>
                         <strong>El. paštas</strong>: <%= user.local.email %><br>
+                        <strong>Vartotojo Tipas</strong>: <%= user.local.userType %><br>
                         <strong>Fakultetas</strong>: <%= user.local.faculty%><br>
                         <strong><a href="editProfile">Redaguoti profili</a></strong>
                     </p>
@@ -64,8 +65,9 @@
           </div>
         </div>
     </div>
-      
+    <%- include('lecture/listassignmentsImp.ejs') %>
     </div>
+
     <div class="row">
         <div class="col-sm-6">
           <div class="card mb-4 shadow-sm text-center">
@@ -77,6 +79,31 @@
               </div>
             </div>
           </div>
+        <% if(user.local.userType == "lecturer") { %>
+        <div class="col-sm-6">
+          <div class="card mb-4 shadow-sm text-center">
+            <div class="well">
+                <h3><span class="fa fa-letter"></span> Issiusti Studentui Uzduoti</h3>
+                <p>
+                    <strong><a href="/requestStudentFile">Spustelėkite čia</a></strong><br>
+                    <strong><a href="/tasks">Jusu uzduociu sarasas</a></strong><br>
+                </p>
+              </div>
+            </div>
+          </div>
+          <% } %>
+        <% if(user.local.userType == "student") { %>
+        <div class="col-sm-6">
+          <div class="card mb-4 shadow-sm text-center">
+            <div class="well">
+                <h3><span class="fa fa-letter"></span> Perziureti savo uzduotis</h3>
+                <p>
+                    <strong><a href="/tasks">Spustelekite cia</a></strong><br>
+                </p>
+              </div>
+            </div>
+          </div>
+          <% } %>
       </div>
 
 </div>

@@ -1,0 +1,24 @@
+<% assignments.forEach(function(assignment) { %>
+<% if(isNaN(assignment.result)) { %>
+      <div class="col-sm-6">
+        <div class="card mb-4 shadow-sm text-center">
+          <div class="well">
+              <hr><span class="fa fa-inbox"></span> Jus turite uzduoti</hr><br>
+              <hr>Pavadinimas: <%= assignment.name %></hr>
+              <p>
+                Busena: <%= assignment.status %> <br>
+                <% if (assignment.status == "checked") { %>
+                  Ivertinimas: <%=assignment.result %>
+                <% } %>
+                <% if (user.local.userType == "student") { %>
+                  <strong><a href="/answerRequest/<%= assignment._id %>">Spustelėkite čia</a></strong><br>
+                <% } %>
+                <% if (user.local.userType == "lecturer") { %>
+                  <strong><a href="/evaluateAss/<%= assignment._id %>">Spustelėkite čia</a></strong><br>
+                <% } %>
+              </p>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    <% }) %>
