@@ -1,0 +1,67 @@
+<html>
+<head>
+    <%- include('partial/head.ejs') %>
+</head>
+
+<body>
+<div class="container">
+
+    <div class="col-sm-6 col-sm-offset-3">
+
+        <h1 style="width: 500px;"><span class="fa fa-sign-in"></span> Studento priskyrimas moduliui</h1>
+
+        <form action="/assignstud/<%=studInfo._id%>" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>ID</label>
+                <input type="text" class="form-control" value="<%= studInfo._id %>" readonly>
+            </div>
+            <div class="form-group">
+                <label>Vardas Pavarde</label>
+                <input type="text" class="form-control" value="<%= studInfo.local.firstName + " " + studInfo.local.lastName %>" readonly>
+            </div>
+            <div class="form-group">
+                <label>El. pastas</label>
+                <input type="text" class="form-control" name="email" value="<%= studInfo.local.email%>" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Fakultetas</label>
+                <input type="text" class="form-control" name="faculty" value="<%= studInfo.local.faculty%>" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Studento moduliai</label>
+                <% studInfo.local.lectures.forEach(function(id) { %>
+                <input type="text" class="form-control" name="lect" value="<%= idToLectName(id)  %>" readonly>
+                <% }) %>
+            </div>
+
+            <div class="form-group">
+                <label>Modulis</label><br>
+                <select name="lecture">
+                    <% lectures.forEach(function(lect) { %>
+                        <option value="<%= lect._id %>" ><%= lect.name %></option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-warning btn-lg" value="upload">Atnaujinti</button>
+        </form>
+
+        <hr>
+
+    </div>
+
+    </form>
+
+</div>
+</body>
+</html>
+<% function idToLectName(id) {
+    var name = "";
+    lectures.forEach(function(lect){
+        if(lect._id == id.toString())
+            name = lect.name;
+    });
+    return name;
+} %>
