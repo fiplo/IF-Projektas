@@ -165,10 +165,17 @@ module.exports = function(app, passport, multer, storage) {
   });
 
   app.get("/list", isLoggedIn, function(req, res) {
-    Lecture.find({}).exec(function(err, lectures) {
-      if (err) throw err;
-      res.render("listLectures.ejs", { lectures: lectures, user: req.user });
-    });
+    if(req.user.local.userType === 'student'){
+      Lecture.find({_id: req.user.local.lectures}).exec(function(err, lectures) {
+        if (err) throw err;
+        res.render("listLectures.ejs", { lectures: lectures, user: req.user });
+      });
+    } else {
+      Lecture.find({}).exec(function(err, lectures) {
+        if (err) throw err;
+        res.render("listLectures.ejs", { lectures: lectures, user: req.user });
+      });
+    }
   });
 
   // Individual lecture
