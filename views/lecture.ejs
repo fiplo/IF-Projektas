@@ -5,9 +5,11 @@
 
 <body>
 <div class="container">
-
+    
     <h1><%= lecture.name %></h1>
     <h4><%= lecture.desc %></h4>
+    
+    
 
     <div class="jumbotron" style="padding-top: 32px;">
         <h3>Modulio failai</h3>
@@ -58,6 +60,7 @@
         <% if(user.local.userType === 'admin' || user.local.userType === 'lecturer') {%>
             <a href="/postLectureItem/<%= lecture._id %>">Add item to lecture</a>
         <% } %>
+        <button type="button" style="float:right;" class="btn btn-primary" onclick="location.href = '/list';">Atgal</button>
     </div>
 
 
