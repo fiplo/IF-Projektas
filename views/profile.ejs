@@ -111,18 +111,20 @@
           </div>
           <% } %>
       </div>
+    <% if(user.local.userType === 'admin' || user.local.userType === 'lecturer') {%>
     <div class="row">
         <div class="col-sm-6">
             <div class="card mb-4 shadow-sm text-center">
                 <div class="well">
                     <h3><span class="fa fa-user"></span> Priskirti studenta moduliui</h3>
                     <p>
-                        <strong><a href="/assignstud">Spustelėkite čia</a><br>
+                        <strong><a href="/assignstud">Spustelėkite čia</a><br></strong>
                     </p>
                 </div>
             </div>
         </div>
     </div>
+    <% } %>
 
 </div>
 <% } %>
