@@ -1,0 +1,13 @@
+Profilis blokuojamas/tuscias kai vartotojo busena unconfirmed (high priority).
+Daug kur sudeti linkus atgal i profile page arba back buttons (high priority).
+Patikrinimas ar jau assignment laikas nepasibaige (low priority).
+Jeigu vartotojas prisijunges, iskarto redirectinti is "/" i "/profile" (low priority).
+Sutvarkyti gramatines klaidas (low priority).
+
+//Login details useriu
+[
+  { user : destytojas@ktu.edu , password : destytojas };
+  { user : admin@admin.lt , password : admin };
+  { user : admin2@admin.lt , password : admin };
+  { user: paulius.ratkevicius@ktu.edu , password : slaptazodis }
+]
