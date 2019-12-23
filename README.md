@@ -4,7 +4,7 @@ Moodle 2.0 klonas skirtas buti kaip Informacinių sistemų pagrindų projektas.
 
 ## Projekto nariai
 
-* **Paulius Ratkevičius** -- Atsakingas už projekto pagrindą, Prisijungimo sistema, Failų variklio sistema
+* **Paulius Ratkevičius** -- Atsakingas už projekto pagrindą, Prisijungimo sistema, Failų variklio sistema, Uzduociu sistema
 * **Liutauras Bitinas** -- Front-end, Destytojų-Studentų sistema
 * **Justinas Munius** -- Žinučių sistema
 
