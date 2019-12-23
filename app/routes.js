@@ -580,12 +580,9 @@ module.exports = function(app, passport, multer, storage) {
       );
 
       newFile.save();
-
-<<<<<<< HEAD
       res.redirect("/list");
     }
   );
-=======
   // assign stud list
   app.get("/assignstud", isLoggedIn, function(req, res) {
     User.find({ "local.userType":"student"}).exec(function(err, users) {
@@ -639,7 +636,4 @@ module.exports = function(app, passport, multer, storage) {
         res.redirect("/assignstud");
       }
   );
-
-
->>>>>>> lectors_branch
 };
